@@ -1,24 +1,21 @@
-import Admin from './pages/Admin/AdminFoodManager';
-import MenuAppBar from './components/MenuAppBar';
+import Admin from './pages/Admin/Admin';
 import { ThemeProvider } from '@emotion/react';
-import { createTheme } from '@mui/material';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main:'#FF007F',
-      light: '#ff77bb18'
-    },
-    secondary: {main:'#FFFF'},
-  },
-  
-});
+import { theme } from './utils/theme';
+import Customer from './pages/Customer/Customer';
+import { useAuthContext } from './context/AuthContext';
+import { CssBaseline } from '@mui/material';
+import { FoodMngrProvider } from './context/FoodMngrContext';
+import { CartContextProvider } from './context/CartContext';
 
 function App() {
+  const { user } = useAuthContext();
+
   return (
     <><ThemeProvider theme={theme}>
-      <MenuAppBar />
-      <Admin />
+      <CssBaseline />
+      <FoodMngrProvider>
+        {user === 'customer' ? <CartContextProvider><Customer /></CartContextProvider> : <Admin />}
+      </FoodMngrProvider>
     </ThemeProvider>
     </>
   );

@@ -2,47 +2,28 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useState } from 'react';
-import { Badge, Button, ButtonGroup } from '@mui/material';
-import AddFoodDialog from '../pages/Admin/AddFoodDialog';
+import { Button, LinearProgress, Stack } from '@mui/material';
+import { useAuthContext } from '../context/AuthContext';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 
-const MenuAppBar = () => {
-
-  const [count, setCount] = useState(1);
-  const [isOpen, setIsOpen] = useState(false);
+const MenuAppBar = ({ children }) => {
+  const { user, toggleUser, loading } = useAuthContext();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar elevation={0}>
-        <Toolbar>
-          <Typography fontFamily='Paytone One' variant="h6" component='div' sx={{flexGrow: 1 }}>
-            cuisinemalaise
-          </Typography>
-          
-          <div>
-            <Button color='inherit' onClick={() => setIsOpen(true)}>Add Food</Button>
-            <AddFoodDialog isOpen={isOpen} onClose={() => setIsOpen(false)} />
-          </div>
+        <Stack>
+          {loading && <LinearProgress />}
+          <Toolbar>
+            <Typography fontFamily='Paytone One' variant="h6" component='div' sx={{ flexGrow: 1 }}>
+              cuisinemalaise
+            </Typography>
+            <Button color='inherit' onClick={toggleUser}>
+              <ChangeCircleIcon sx={{ mb: '1px', mr: '2px' }} /> {user === 'customer' ? 'admin' : 'customer'}
+            </Button>
+            {children}
 
-          <IconButton color='inherit'>
-            <Badge sx={{
-              "& .MuiBadge-badge": {
-                bgcolor: 'secondary.main', color: "primary.main"
-              }
-            }}
-              badgeContent={count}>
-              <ShoppingCartOutlinedIcon />
-            </Badge>
-          </IconButton>
-
-          <Button color='inherit'>
-            User
-          </Button>
-
-          <div>
-
+            {/* <div>
             <ButtonGroup color='secondary'>
               <Button
                 aria-label="reduce"
@@ -61,8 +42,10 @@ const MenuAppBar = () => {
                 +
               </Button>
             </ButtonGroup>
-          </div>
-        </Toolbar>
+          </div> */}
+          </Toolbar>
+        </Stack>
+
       </AppBar>
     </Box>
   );

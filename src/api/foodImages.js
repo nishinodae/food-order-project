@@ -1,0 +1,82 @@
+const baseURL = "http://localhost:3006/foodImages";
+
+//upload local image file to cloudinary
+export const uploadLocalImage = async (file) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'upload-unsigned-food-image');
+        const url = process.env.REACT_APP_API_URL;
+        // const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
+        // let req = new Request(url);
+        const response = await fetch(url,
+            {
+                method: "POST",
+                body: formData
+                // headers: {
+                //     "Content-Type": "application/json",
+                // },
+                // body: {
+                //     'file': file,
+                //     'upload_preset': 'upload-unsigned-food-image'
+                // },
+            }
+        );
+        if (response.ok) {
+            const data = await response.json();
+            return data.secure_url;
+        } else {
+            alert('Failed to upload image');
+        }
+    }
+    catch (e) {
+        alert('Upload error: ', e.message);
+    }
+}
+
+export const postImage = async (imgData) => {
+    try {
+        const response = await fetch(baseURL,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(imgData),
+            }
+        );
+        return response.json();
+    }
+    catch (e) {
+        alert('Error adding imageURL to json-server:', e);
+    }
+}
+
+export const deleteImage = async (id) => {
+    try {
+        await fetch(`${baseURL}/${id}`,
+            {
+                method: "DELETE",
+            }
+        );
+    }
+    catch (e) {
+        alert('Error deleting imageURL from json-server:', e);
+    }
+}
+
+export const getImage = async () => {
+    try {
+        const response = await fetch(baseURL,
+            {
+                method: "GET",
+            }
+        );
+        return response.json();
+    }
+    catch (e) {
+        console.error('Error getting imageURL from json-server:', e);
+    }
+}
+
+

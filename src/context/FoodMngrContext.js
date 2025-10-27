@@ -1,0 +1,192 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { deleteFood, getFood, postFood, putFood } from "../api/food";
+import { useAuthContext } from "./AuthContext";
+import { getImage, postImage, uploadLocalImage } from "../api/foodImages";
+
+const foodMngrContext = createContext();
+
+export const FoodMngrProvider = ({ children }) => {
+    // const LOCAL_STORAGE_FOOD_KEY = 'foodStorage';
+    // const [food, setFood] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_FOOD_KEY)) || []);
+
+    // useEffect(() => {
+    //     localStorage.setItem(LOCAL_STORAGE_FOOD_KEY, JSON.stringify(food));
+    // }, [food]);
+    const { setLoading } = useAuthContext();
+    const [food, setFood] = useState([]);
+    const [foodImages, setFoodImages] = useState([]);
+    const [currentImage, setCurrentImage] = useState(null);
+
+    //retrieve food
+    const retrieveFoods = async () => {
+        const data = await getFood();
+        if (data) setFood(data);
+        console.log('food retrieved')
+    }
+
+    //retrieve available food images
+    const retrieveFoodImages = async () => {
+        const data = await getImage();
+        if (data) setFoodImages(data);
+    }
+
+    // //re-fetch and update across tabs using polling
+    // useEffect(() => {
+    //     let interval;
+    //     const startPolling = () => {
+    //         retrieveFoods();
+    //         // retrieveFoodImages();
+    //         interval = setInterval(retrieveFoods, 5000);
+    //     }
+
+    //     const stopPolling = () => {
+    //         console.log('stopped polling')
+    //         clearInterval(interval);
+    //     }
+
+    //     document.addEventListener("visibilitychange", () => {
+    //         if (document.hidden) {
+    //             stopPolling();
+    //         } else {
+    //             startPolling();
+    //         }
+    //     });
+
+    //     startPolling();
+
+    //     return () => {
+    //         stopPolling();
+    //         document.removeEventListener("visibilitychange", stopPolling);
+    //     };
+
+    // }, []);
+
+    //re-fetch and update across tabs using localStorage
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === 'itemsUpdated') {
+                retrieveFoods();
+            }
+        };
+        window.addEventListener("storage", handleStorageChange);
+        retrieveFoods();
+
+        return () => window.removeEventListener("storage", handleStorageChange);
+    }, [])
+
+    //add food
+    const addFood = async (newFood) => {
+        setLoading(true);
+        if (currentImage) {
+            let imgURL;
+            if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
+                imgURL = currentImage
+            }
+            else {
+                imgURL = await uploadLocalImage(currentImage);
+                const dataImg = await postImage({
+                    id: uuidv4(),
+                    img: imgURL
+                })
+                setFoodImages([...foodImages, dataImg])
+            }
+            if (imgURL) {
+                const request = {
+                    id: uuidv4(),
+                    ...newFood,
+                    img: imgURL
+                };
+                const data = await postFood(request);
+                setFood([...food, data]);
+                setCurrentImage(null);
+            }
+        }
+        else {
+            const request = {
+                id: uuidv4(),
+                ...newFood,
+                img: ''
+            };
+            const data = await postFood(request);
+            setFood([...food, data]);
+        }
+        setLoading(false);
+    };
+
+    //edit food
+    const editFoodHandler = async (item) => {
+        setLoading(true);
+        if (currentImage) {
+            let imgURL;
+            if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
+                imgURL = currentImage
+            }
+            else {
+                imgURL = await uploadLocalImage(currentImage);
+                const dataImg = await postImage({
+                    id: uuidv4(),
+                    img: imgURL
+                })
+                setFoodImages([...foodImages, dataImg])
+            }
+            if (imgURL) {
+                const data = await putFood({
+                    img: imgURL,
+                    ...item,
+                });
+                const { id } = data;
+                setFood(food.map(oldFood =>
+                    oldFood.id === id ? { ...data } : oldFood
+                ))
+                setCurrentImage(null);
+            }
+        }
+        else {
+            const data = await putFood({
+                img: '',
+                ...item,
+            });
+            const { id } = data;
+            setFood(food.map(oldFood =>
+                oldFood.id === id ? { ...data } : oldFood
+            ))
+        }
+        setLoading(false);
+    };
+
+    //delete food
+    const deleteFoodHandler = async (id) => {
+        await deleteFood(id);
+        let newFoodList = food.filter((item) => {
+            return item.id !== id;
+        });
+        setFood(newFoodList);
+    };
+
+    const value = {
+        food,
+        addFood,
+        editFoodHandler,
+        deleteFoodHandler,
+        currentImage,
+        setCurrentImage,
+        foodImages,
+        retrieveFoodImages
+    };
+
+    return <foodMngrContext.Provider value={value}>
+        {children}
+    </foodMngrContext.Provider>
+}
+
+export const useFoodContext = () => {
+    const context = useContext(foodMngrContext)
+    if (!context) {
+        throw new Error('useFoodContext must be used within FoodProvider');
+    }
+    return context;
+};
+
+
+

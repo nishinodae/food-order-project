@@ -1,9 +1,29 @@
 body{
   margin: 0;
-  font-family: 'Roboto';
 }
 
-.App {
-  text-align: center;
+img:hover {
+  transform: scale(1.2);
 }
 
+.overlay-first, .overlay-second, .overlay-third {
+position: absolute;
+width:100px;
+height:90px;
+top: 78px;
+right: 191px;
+transition: 1s ease;
+}
+
+.overlay-second {
+top: 96px;
+right: 115px;
+}
+.overlay-third {
+top: 82px;
+right: 40px;
+}
+
+.modal-root{
+  overflow: auto;
+}
