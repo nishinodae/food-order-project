@@ -1,12 +1,12 @@
 import { Badge, Button, Grid, IconButton, Stack, Tooltip } from "@mui/material";
-import { useFoodContext } from "../../context/FoodMngrContext";
-import { useState } from "react";
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useState } from "react";
+import { useFoodContext } from "../../context/FoodMngrContext";
 import FoodCard from "../../components/FoodCard";
 import MenuAppBar from "../../components/MenuAppBar";
-import FormFoodDialog from '../../components/FormFoodDialog';
 import Headline from "../../components/Headline";
-import DeleteDialog from "../../components/DeleteDialog";
+import FormFoodDialog from './components/FormFoodDialog';
+import DeleteDialog from "./components/DeleteDialog";
 
 const Admin = () => {
     const [showFormFood, setShowFormFood] = useState(false);

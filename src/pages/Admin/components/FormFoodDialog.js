@@ -1,9 +1,8 @@
 import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import debounce from '../utils/debounce';
-import { useFoodContext } from "../context/FoodMngrContext";
-// import CompressImageDialog from "./CompressImageDialog";
-import UploadButton from "./UploadButton";
+import UploadButton from './UploadButton';
+import debounce from '../../../utils/debounce';
+import { useFoodContext } from "../../../context/FoodMngrContext";
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
     const [name, setName] = useState(foodItem ? foodItem.name : '');
@@ -51,28 +50,31 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
 
     const submitFood = (e) => {
         e.preventDefault();
-        if (name === '' && desc === '' && price === '') {
+        if (!name || !desc || !price) {
             setHelperText('Please fill in all the details');
             setError('all');
-        } else if (name === '') {
-            setHelperText('Please name the food');
-            setError('name');
-        } else if (desc === '') {
-            setHelperText('Please describe the food');
-            setError('desc');
-        } else if (price === '') {
-            setHelperText('Please provide a price for the food');
-            setError('price');
-        }
-        else if (isNaN(price)) {
+            return;
+        } 
+        // if (name === '' && desc === '' && price === '') {
+        //     setHelperText('Please fill in all the details');
+        //     setError('all');
+        // } else if (name === '') {
+        //     setHelperText('Please name the food');
+        //     setError('name');
+        // } else if (desc === '') {
+        //     setHelperText('Please describe the food');
+        //     setError('desc');
+        // } else if (price === '') {
+        //     setHelperText('Please provide a price for the food');
+        //     setError('price');
+        // }
+        // else 
+            if (isNaN(price)) {
             setHelperText('Please input number for price');
             setError('price');
-        } else {
-            // const formData = new FormData();
-            // if (selectedFile) {
-            //     formData.append('file', selectedFile);
-            //     formData.append('upload_preset', 'upload-unsigned-food-image');
-            // }
+            return;
+        } 
+        // else {
             let food = {
                 'name': name,
                 'desc': desc,
@@ -86,12 +88,12 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
             setDesc('');
             setPrice('');
             onClose();
-        }
+        // }
     };
 
     useEffect(() => {
         //error and login button handler. Wait 300ms before handling
-        handleButtonDisable.current = debounce((name, desc, price) => {
+        handleButtonDisable.current = debounce(() => {
             setHelperText('');
             setError('');
         }, 300);
@@ -103,7 +105,7 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
     }, [name, desc, price]);
 
     useEffect(() => {
-        handleButtonDisable.current?.(name, desc, price);
+        handleButtonDisable.current?.();
     }, [name, desc, price]);
 
     return (<Dialog open fullWidth='true'>

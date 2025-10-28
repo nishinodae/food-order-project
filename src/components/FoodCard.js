@@ -1,7 +1,6 @@
 import imgplaceholder from '../assets/placeholder-image.png';
 import { Box, Card, CardMedia, CardContent, CardActions, Grid, Typography } from '@mui/material';
 
-
 const FoodCard = ({ foodItem, children }) => {
     return (
         <Grid size={{ sm: 6, md: 3 }}>
@@ -25,7 +24,7 @@ const FoodCard = ({ foodItem, children }) => {
                             {foodItem.name}
                         </Typography>
                         <Typography fontWeight='bold' variant='h6'>
-                            RM{foodItem.price}
+                            RM{foodItem.price.toFixed(2)}
                         </Typography>
                     </Box>
                     <Typography variant="body2" sx={{ color: 'text.secondary', flex: '1 0 auto' }}>

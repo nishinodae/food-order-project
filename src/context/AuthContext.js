@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 const authContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    const [user, setUser] = useState('admin');
+    const [user, setUser] = useState('customer');
     const [loading, setLoading] = useState(false);
     
     const toggleUser = () => {

@@ -1,13 +1,12 @@
-import FoodCard from "../../components/FoodCard";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { IconButton, Paper, Typography } from '@mui/material';
-import { useState } from 'react';
-import { useCartContext } from "../../context/CartContext";
+import { useCartContext } from '../../../context/CartContext';
+import FoodCard from '../../../components/FoodCard';
 
 const CustomerFoodCard = ({ item, currentCount }) => {
     const { addFoodToCart, removeFoodFromCart, } = useCartContext();
-    const [count, setCount] = useState(currentCount);
+    // const [count, setCount] = useState(currentCount);
     // let food = {
     //     id: item.id,
     //     price: item.price,
@@ -25,17 +24,17 @@ const CustomerFoodCard = ({ item, currentCount }) => {
             <IconButton
                 color='primary'
                 onClick={() => {
-                    setCount(Math.max(count - 1, 0));
+                    // setCount(Math.max(count - 1, 0));
                     removeFoodFromCart(item.id)
                 }}
             >
                 <RemoveIcon sx={{ fontSize: '12px' }} />
             </IconButton>
-            <Typography p='0 5px'>{count}</Typography>
+            <Typography p='0 5px'>{currentCount}</Typography>
             <IconButton
                 color='primary'
                 onClick={() => {
-                    setCount(count + 1);
+                    // setCount(count + 1);
                     addFoodToCart(item.id)
                 }}
             >

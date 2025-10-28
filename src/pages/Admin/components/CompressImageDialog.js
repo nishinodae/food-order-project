@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Dialog, DialogActions, DialogTitle } from "@mui/material";
-import { useFoodContext } from "../context/FoodMngrContext";
 import { useState } from "react";
+import { useFoodContext } from "../../../context/FoodMngrContext";
 
 const CompressImageDialog = ({ onClose }) => {
     const { currentImage, setCurrentImage } = useFoodContext();

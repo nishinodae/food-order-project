@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogTitle } from "@mui/material";
-import { useFoodContext } from "../context/FoodMngrContext";
+import { useFoodContext } from "../../../context/FoodMngrContext";
 
 const DeleteDialog = ({ foodItem, onClose }) => {
     const { deleteFoodHandler } = useFoodContext();

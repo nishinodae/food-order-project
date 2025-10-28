@@ -161,18 +161,51 @@ export const FoodMngrProvider = ({ children }) => {
         let newFoodList = food.filter((item) => {
             return item.id !== id;
         });
+        if (newFoodList.length === 0) { localStorage.setItem('cart', '[]'); }
         setFood(newFoodList);
     };
 
+    // const initialFormState = {
+    //     name: '',
+    //     desc: '',
+    //     price: '',
+    //     errors: {},
+    //     helperText: ''
+    // }
+
+    // const formReducer = (state, action) => {
+    //     switch (action.type) {
+    //         case 'CHANGE_FIELD':
+    //             return {
+    //                 ...state,
+    //                 [action.field]: action.value,
+    //                 errors: { ...state.errors, [action.field]: '' },
+    //                 helperText: ''
+    //             }
+    //         case 'SET_ERROR':
+    //             return {
+    //                 ...state,
+    //                 errors: { ...state.errors, [action.field]: true },
+    //                 helperText: action.helperText
+    //             }
+    //         case 'RESET':
+    //             return initialFormState;
+    //         default: return state;
+    //     }
+    // }
+
     const value = {
         food,
+        retrieveFoods,
         addFood,
         editFoodHandler,
         deleteFoodHandler,
         currentImage,
         setCurrentImage,
         foodImages,
-        retrieveFoodImages
+        retrieveFoodImages,
+        // initialFormState,
+        // formReducer
     };
 
     return <foodMngrContext.Provider value={value}>
