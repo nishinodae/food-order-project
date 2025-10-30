@@ -7,19 +7,15 @@ export function CartContextProvider({ children }) {
     const LOCAL_STORAGE_CART_KEY = 'cart';
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_CART_KEY)) || []);
     const [totalPrice, setTotalPrice] = useState(0);
-    // const [cartInfo, setCartInfo] = useState([]);
     const [cartLength, setCartLength] = useState(0);
     const { food } = useFoodContext();
 
     useEffect(() => {
-        // if (food.length === 0 && cart.length !== 0) {
-        //     retrieveFoods();
-        // }
-
         if (food.length > 0 && cart.length > 0) {
             let currentTotal = 0;
             let qty = 0;
-            // let info = [];
+            const invalidItem = [];
+
             cart.forEach(cartItem => {
                 let foodExist;
                 for (const foodItem of food) {
@@ -29,28 +25,36 @@ export function CartContextProvider({ children }) {
                     }
                 }
                 if (foodExist) {
-                    // info.push(foodExist);
                     currentTotal += (cartItem.qty * foodExist.price);
                     qty += cartItem.qty;
                 } else {
-                    setCart(cart.filter((item) => {
-                        return item.id !== cartItem.id;
-                    }));
+                    invalidItem.push(cartItem.id);
                 }
             });
-            // setCartInfo(info);
+            if (invalidItem.length > 0) {
+                setCart(cart.filter((item) => {
+                    return !invalidItem.includes(item.id);
+                }));
+            }
             setTotalPrice(currentTotal);
             setCartLength(qty);
-            localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cart));
-            console.log('cart.length: ', cart.length, ' food changed: ', food.length)
+            // localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cart));
         }
         else if (food.length === 0 && JSON.parse(localStorage.getItem(LOCAL_STORAGE_CART_KEY)).length === 0 && cart.length > 0) {
-            setCart([]);
-            setTotalPrice(0);
-            setCartLength(0);
-            // setCartInfo([]);
+            clearCart();
         }
     }, [cart, food]);
+
+    useEffect(() => {
+        localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cart));
+    }, [cart]);
+
+    //clear cart
+    const clearCart = () => {
+        setCart([]);
+        setTotalPrice(0);
+        setCartLength(0);
+    }
 
     //add food to cart
     const addFoodToCart = (id) => {
@@ -80,7 +84,7 @@ export function CartContextProvider({ children }) {
     };
 
     //remove food from cart
-    const removeFoodFromCart = (id) => {
+    const removeFoodFromCart = (id, all) => {
         let foodExistinCart;
         for (const item of cart) {
             if (item.id === id) {
@@ -90,7 +94,7 @@ export function CartContextProvider({ children }) {
         }
         if (foodExistinCart) {
             let newCart;
-            if (foodExistinCart.qty <= 1) {
+            if (foodExistinCart.qty <= 1 || all) {
                 newCart = cart.filter((item) => {
                     return item.id !== id;
                 });
@@ -107,7 +111,7 @@ export function CartContextProvider({ children }) {
             }
             setCart(newCart);
             if (newCart.length === 0) {
-                localStorage.setItem(LOCAL_STORAGE_CART_KEY, '[]');
+                // localStorage.setItem(LOCAL_STORAGE_CART_KEY, '[]');
                 setTotalPrice(0);
                 setCartLength(0);
             }
@@ -116,6 +120,7 @@ export function CartContextProvider({ children }) {
 
     const value = {
         cart,
+        clearCart,
         addFoodToCart,
         removeFoodFromCart,
         totalPrice,

@@ -24,6 +24,15 @@ top: 82px;
 right: 40px;
 }
 
-.modal-root{
-  overflow: auto;
+.custom-box{
+  padding-top: 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.hide-overflow{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
 }

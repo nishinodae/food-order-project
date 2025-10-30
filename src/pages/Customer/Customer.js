@@ -4,15 +4,18 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useState } from "react";
 import { useFoodContext } from '../../context/FoodMngrContext';
 import { useCartContext } from '../../context/CartContext';
+import { useOrderContext } from '../../context/OrderContext';
 import Headline from "../../components/Headline";
 import MenuAppBar from "../../components/MenuAppBar";
 import CustomerFoodCard from "./components/CustomerFoodCard";
 import CartUI from "./components/CartUI";
+import CustomerOrder from './components/CustomerOrder';
 
 const Customer = () => {
     const [showCart, setShowCart] = useState(false);
     const { food } = useFoodContext();
     const { cart, cartLength } = useCartContext();
+    const { showOrder, setShowOrder } = useOrderContext();
     const renderFoodList = food.map((item) => {
         let currentCount = 0;
         for (const cartItem of cart) {
@@ -25,10 +28,11 @@ const Customer = () => {
     });
     return (
         <>
-            {showCart && <CartUI onClose={() => setShowCart(false)} />}
+            {showCart && <CartUI onClose={() => setShowCart(false)}/>}
+            {showOrder && <CustomerOrder onClose={() => setShowOrder(false)} />}
             <MenuAppBar>
                 <Tooltip title='My Orders'>
-                    <IconButton color='inherit'>
+                    <IconButton color='inherit' onClick={() => setShowOrder(true)}>
                         <ReceiptLongIcon />
                     </IconButton>
                 </Tooltip>

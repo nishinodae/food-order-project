@@ -6,12 +6,6 @@ import FoodCard from '../../../components/FoodCard';
 
 const CustomerFoodCard = ({ item, currentCount }) => {
     const { addFoodToCart, removeFoodFromCart, } = useCartContext();
-    // const [count, setCount] = useState(currentCount);
-    // let food = {
-    //     id: item.id,
-    //     price: item.price,
-    //     qty: count
-    // };
 
     return <FoodCard foodItem={item}>
         <Paper
@@ -24,7 +18,6 @@ const CustomerFoodCard = ({ item, currentCount }) => {
             <IconButton
                 color='primary'
                 onClick={() => {
-                    // setCount(Math.max(count - 1, 0));
                     removeFoodFromCart(item.id)
                 }}
             >
@@ -34,7 +27,6 @@ const CustomerFoodCard = ({ item, currentCount }) => {
             <IconButton
                 color='primary'
                 onClick={() => {
-                    // setCount(count + 1);
                     addFoodToCart(item.id)
                 }}
             >

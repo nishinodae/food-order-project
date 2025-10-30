@@ -22,7 +22,6 @@ export const FoodMngrProvider = ({ children }) => {
     const retrieveFoods = async () => {
         const data = await getFood();
         if (data) setFood(data);
-        console.log('food retrieved')
     }
 
     //retrieve available food images
@@ -30,37 +29,6 @@ export const FoodMngrProvider = ({ children }) => {
         const data = await getImage();
         if (data) setFoodImages(data);
     }
-
-    // //re-fetch and update across tabs using polling
-    // useEffect(() => {
-    //     let interval;
-    //     const startPolling = () => {
-    //         retrieveFoods();
-    //         // retrieveFoodImages();
-    //         interval = setInterval(retrieveFoods, 5000);
-    //     }
-
-    //     const stopPolling = () => {
-    //         console.log('stopped polling')
-    //         clearInterval(interval);
-    //     }
-
-    //     document.addEventListener("visibilitychange", () => {
-    //         if (document.hidden) {
-    //             stopPolling();
-    //         } else {
-    //             startPolling();
-    //         }
-    //     });
-
-    //     startPolling();
-
-    //     return () => {
-    //         stopPolling();
-    //         document.removeEventListener("visibilitychange", stopPolling);
-    //     };
-
-    // }, []);
 
     //re-fetch and update across tabs using localStorage
     useEffect(() => {
@@ -71,7 +39,7 @@ export const FoodMngrProvider = ({ children }) => {
         };
         window.addEventListener("storage", handleStorageChange);
         retrieveFoods();
-
+        retrieveFoodImages();
         return () => window.removeEventListener("storage", handleStorageChange);
     }, [])
 
@@ -165,34 +133,43 @@ export const FoodMngrProvider = ({ children }) => {
         setFood(newFoodList);
     };
 
-    // const initialFormState = {
-    //     name: '',
-    //     desc: '',
-    //     price: '',
-    //     errors: {},
-    //     helperText: ''
-    // }
+    const initialFormState = {
+        id: null,
+        foodname: '',
+        desc: '',
+        price: '',
+        error: '',
+        helperText: '',
+        mode: 'create'
+    };
 
-    // const formReducer = (state, action) => {
-    //     switch (action.type) {
-    //         case 'CHANGE_FIELD':
-    //             return {
-    //                 ...state,
-    //                 [action.field]: action.value,
-    //                 errors: { ...state.errors, [action.field]: '' },
-    //                 helperText: ''
-    //             }
-    //         case 'SET_ERROR':
-    //             return {
-    //                 ...state,
-    //                 errors: { ...state.errors, [action.field]: true },
-    //                 helperText: action.helperText
-    //             }
-    //         case 'RESET':
-    //             return initialFormState;
-    //         default: return state;
-    //     }
-    // }
+    const formReducer = (state, action) => {
+        switch (action.type) {
+            case 'CHANGE_FIELD':
+                return {
+                    ...state,
+                    [action.field]: action.value,
+                    // error: '',
+                    // helperText: ''
+                };
+            case 'SET_ERROR':
+                return {
+                    ...state,
+                    error: action.value,
+                    helperText: action.helperText
+                };
+            case 'EDITING':
+                return {
+                    ...state,
+                    ...action.payload,
+                    mode: 'edit'
+                };
+            case 'RESET':
+                return initialFormState;
+
+            default: return state;
+        }
+    };
 
     const value = {
         food,
@@ -204,8 +181,8 @@ export const FoodMngrProvider = ({ children }) => {
         setCurrentImage,
         foodImages,
         retrieveFoodImages,
-        // initialFormState,
-        // formReducer
+        initialFormState,
+        formReducer
     };
 
     return <foodMngrContext.Provider value={value}>
@@ -214,11 +191,7 @@ export const FoodMngrProvider = ({ children }) => {
 }
 
 export const useFoodContext = () => {
-    const context = useContext(foodMngrContext)
-    if (!context) {
-        throw new Error('useFoodContext must be used within FoodProvider');
-    }
-    return context;
+    return useContext(foodMngrContext)
 };
 
 

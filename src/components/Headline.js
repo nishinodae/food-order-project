@@ -1,8 +1,9 @@
 import { Box, Grid, Typography } from "@mui/material";
-import headerImg1 from '../assets/nasi-lemak-illustration.png';
-import headerImg2 from '../assets/laksa.png';
-import headerImg3 from '../assets/nasigoreng.png';
-const Headline = ({firstLine, secondLine}) => {
+import headerImg1 from '../assets/nasi-lemak-illustration.webp';
+import headerImg2 from '../assets/laksa.webp';
+import headerImg3 from '../assets/nasigoreng.webp';
+
+const Headline = ({ firstLine, secondLine }) => {
     return (<Grid container sx={{
         position: 'relative', bgcolor: 'primary.main', p: '100px 15px 50px 25px',
         background: 'radial-gradient(farthest-side at 110% 1%, black, #ff359aff)'
@@ -11,7 +12,7 @@ const Headline = ({firstLine, secondLine}) => {
             <Typography sx={{ color: 'secondary.main' }} fontSize='20px'>{firstLine}</Typography>
             <Typography sx={{ color: 'secondary.main' }} fontSize='12px'>{secondLine}</Typography>
         </Box>
-        <Box >
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <img src={headerImg1} alt="nasi-lemak" loading="lazy"
                 className="overlay-first"
             ></img>

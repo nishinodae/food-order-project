@@ -6,6 +6,7 @@ import { useAuthContext } from './context/AuthContext';
 import { CssBaseline } from '@mui/material';
 import { FoodMngrProvider } from './context/FoodMngrContext';
 import { CartContextProvider } from './context/CartContext';
+import { OrderProvider } from './context/OrderContext';
 
 function App() {
   const { user } = useAuthContext();
@@ -14,7 +15,9 @@ function App() {
     <><ThemeProvider theme={theme}>
       <CssBaseline />
       <FoodMngrProvider>
+        <OrderProvider>
         {user === 'customer' ? <CartContextProvider><Customer /></CartContextProvider> : <Admin />}
+        </OrderProvider>
       </FoodMngrProvider>
     </ThemeProvider>
     </>
