@@ -27,7 +27,36 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "semi": [
+        "warn",
+        "always"
+      ],
+      "quotes": [
+        "warn",
+        "single",
+        {
+          "avoidEscape": true
+        }
+      ],
+      "no-multiple-empty-lines": [
+        "warn",
+        {
+          "max": 1,
+          "maxBOF": 0,
+          "maxEOF": 0
+        }
+      ],
+      "jsx-quotes": [
+        "warn",
+        "prefer-single"
+      ],
+      "no-duplicate-imports": "warn",
+      "no-console": "warn",
+      "no-unused-vars": "warn",
+      "react/prop-types": "off"
+    }
   },
   "browserslist": {
     "production": [

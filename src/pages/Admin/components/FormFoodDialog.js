@@ -1,14 +1,9 @@
-import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from "@mui/material";
-import { useEffect, useReducer, useRef } from "react";
-import { useFoodContext } from "../../../context/FoodMngrContext";
-import AddImage from "./AddImage";
+import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from '@mui/material';
+import { useEffect, useReducer, useRef } from 'react';
+import { useFoodContext } from '../../../context/FoodMngrContext';
+import AddImage from './AddImage';
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
-    // const [name, setName] = useState(foodItem ? foodItem.name : '');
-    // const [desc, setDesc] = useState(foodItem ? foodItem.desc : '');
-    // const [price, setPrice] = useState(foodItem ? foodItem.price : '');
-    // const [error, setError] = useState('');
-    // const [helperText, setHelperText] = useState('');
     const debounceRef = useRef();
     const { addFood, editFoodHandler, setCurrentImage, initialFormState, formReducer } = useFoodContext();
     const [form, dispatch] = useReducer(formReducer, initialFormState);
@@ -17,7 +12,7 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
     useEffect(() => {
         if (foodItem) {
             dispatch({
-                type: 'EDITING',
+                type: 'EDITING_MODE',
                 payload: {
                     id: foodItem.id,
                     foodname: foodItem.name,
@@ -33,8 +28,8 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
     useEffect(() => {
         return () => {
             clearTimeout(debounceRef.current);
-        }
-    }, [])
+        };
+    }, []);
 
     const handleChange = (e) => {
         dispatch({
@@ -99,55 +94,6 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
         onClose();
     };
 
-    // useEffect(() => {
-    //     //error and login button handler. Wait 300ms before handling
-    //     handleError.current = debounce(() => {
-    //         setHelperText('');
-    //         setError('');
-    //     }, 300);
-
-    //     //cleanup on unmount
-    //     return () => {
-    //         handleError.current.cancel?.();
-    //     };
-    // }, [name, desc, price]);
-
-    // useEffect(() => {
-    //     handleError.current?.();
-    // }, [name, desc, price]);
-
-    // const submitFood = (e) => {
-    //     e.preventDefault();
-    //     if (!name || !desc || !price) {
-    //         setHelperText('Please fill in all the details');
-    //         setError('all');
-    //         return;
-    //     }
-    //     if (isNaN(price)) {
-    //         setHelperText('Please input number for price');
-    //         setError('price');
-    //         return;
-    //     }
-    //     let food = {
-    //         'name': name,
-    //         'desc': desc,
-    //         'price': Number(price),
-    //     };
-    //     !foodItem ? addFood(food) : editFoodHandler({
-    //         id: foodItem.id,
-    //         ...food,
-    //     });
-    //     setName('');
-    //     setDesc('');
-    //     setPrice('');
-    //     onClose();
-    // };
-
-    // const cancel = () => {
-    //     setCurrentImage(null);
-    //     onClose();
-    // };
-
     return (<Dialog open fullWidth='true'>
         <Stack
             component='form' onSubmit={submitFood}
@@ -155,69 +101,52 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
                 bgcolor: 'secondary.main',
                 padding: '20px',
                 borderRadius: '8px',
-                // width: '50%'
             }}
             spacing={2}
         >
             <TextField
-                // required 
                 autoFocus
                 label='Food name'
-                // error={error === 'name' || error === 'all'}
-                // value={name}
-                // onChange={(e) => setName(e.target.value)} />
                 name='foodname'
                 value={foodname}
                 onChange={handleChange}
                 error={error === 'all'}
-            // helperText={helperText}
             />
             <TextField
-                // required
-                name="desc"
-                // multiline
-                label="Description"
-                // error={error === 'desc' || error === 'all'}
-                // value={desc}
-                // onChange={(e) => setDesc(e.target.value)}
+                name='desc'
+                label='Description'
                 value={desc}
                 onChange={handleChange}
                 error={error === 'all'}
-            // helperText={helperText}
             />
             <TextField
-                // required 
                 label='Price'
                 slotProps={{
                     input: {
-                        startAdornment: <InputAdornment position="start">RM</InputAdornment>
+                        startAdornment: <InputAdornment position='start'>RM</InputAdornment>
                     }
                 }}
-                // error={error === 'price' || error === 'all'}
-                // value={price}
-                // onChange={(e) => setPrice(e.target.value)}
                 name='price'
                 value={price}
                 onChange={handleChange}
                 error={error === 'price' || error === 'all'}
-            // helperText={helperText}
             />
             {helperText && <Typography fontSize='14px' color='error'>{helperText}</Typography>}
             <AddImage />
             <Box display='flex'>
                 <Button
-                    type="submit" variant="contained" sx={{
+                    type='submit' variant='contained' sx={{
                         flex: 1, mr: '8px'
                     }}>{!foodItem ? 'add' : 'update'}</Button>
-                <Button onClick={cancel} variant="outlined" sx={{
-                    '&:hover': { bgcolor: "primary.light" },
+                <Button onClick={cancel} variant='outlined' sx={{
+                    '&:hover': { bgcolor: 'primary.light' },
                     flex: 1,
-                    borderColor: "primary", color: "custom"
+                    borderColor: 'primary', color: 'custom'
                 }}>cancel</Button>
             </Box>
         </Stack>
     </Dialog>
     );
-}
+};
 
 export default FormFoodDialog;

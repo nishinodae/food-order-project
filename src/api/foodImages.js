@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:3006/foodImages";
+const baseURL = 'http://localhost:3006/foodImages';
 
 //upload local image file to cloudinary
 export const uploadLocalImage = async (file) => {
@@ -11,7 +11,7 @@ export const uploadLocalImage = async (file) => {
         // let req = new Request(url);
         const response = await fetch(url,
             {
-                method: "POST",
+                method: 'POST',
                 body: formData
                 // headers: {
                 //     "Content-Type": "application/json",
@@ -32,15 +32,15 @@ export const uploadLocalImage = async (file) => {
     catch (e) {
         alert('Upload error: ', e.message);
     }
-}
+};
 
 export const postImage = async (imgData) => {
     try {
         const response = await fetch(baseURL,
             {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(imgData),
             }
@@ -50,33 +50,31 @@ export const postImage = async (imgData) => {
     catch (e) {
         alert('Error adding imageURL to json-server:', e);
     }
-}
+};
 
 export const deleteImage = async (id) => {
     try {
         await fetch(`${baseURL}/${id}`,
             {
-                method: "DELETE",
+                method: 'DELETE',
             }
         );
     }
     catch (e) {
         alert('Error deleting imageURL from json-server:', e);
     }
-}
+};
 
 export const getImage = async () => {
     try {
         const response = await fetch(baseURL,
             {
-                method: "GET",
+                method: 'GET',
             }
         );
         return response.json();
     }
     catch (e) {
-        console.error('Error getting imageURL from json-server:', e);
+        alert('Error getting imageURL from json-server:', e);
     }
-}
-
-
+};

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from '@mui/material';
 import headerImg1 from '../assets/nasi-lemak-illustration.webp';
 import headerImg2 from '../assets/laksa.webp';
 import headerImg3 from '../assets/nasigoreng.webp';
@@ -13,18 +13,18 @@ const Headline = ({ firstLine, secondLine }) => {
             <Typography sx={{ color: 'secondary.main' }} fontSize='12px'>{secondLine}</Typography>
         </Box>
         <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <img src={headerImg1} alt="nasi-lemak" loading="lazy"
-                className="overlay-first"
+            <img src={headerImg1} alt='nasi-lemak' loading='lazy'
+                className='overlay-first'
             ></img>
-            <img src={headerImg2} alt="nasi-lemak" loading="lazy"
-                className="overlay-second"
+            <img src={headerImg2} alt='nasi-lemak' loading='lazy'
+                className='overlay-second'
             ></img>
-            <img src={headerImg3} alt="nasi-lemak" loading="lazy"
-                className="overlay-third"
+            <img src={headerImg3} alt='nasi-lemak' loading='lazy'
+                className='overlay-third'
             ></img>
         </Box>
 
     </Grid>);
-}
+};
 
 export default Headline;

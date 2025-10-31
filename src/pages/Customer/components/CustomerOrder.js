@@ -1,6 +1,6 @@
-import { Box, Paper, Typography } from "@mui/material";
-import { useOrderContext } from "../../../context/OrderContext";
-import OrderUI from "../../../components/OrderUI";
+import { Box, Paper, Typography } from '@mui/material';
+import { useOrderContext } from '../../../context/OrderContext';
+import OrderUI from '../../../components/OrderUI';
 
 const CustomerOrder = ({onClose}) => {
     const { orders } = useOrderContext();
@@ -11,7 +11,7 @@ const CustomerOrder = ({onClose}) => {
             sx={{
                 mt: '20px',
                 p: '10px 20px',
-                bgcolor: "primary.light"
+                bgcolor: 'primary.light'
             }}>
             <Box className='custom-box'>
                 <Typography fontWeight='bold' color={item.status==='Cancelled'?'error':'success'}>{item.status}</Typography>
@@ -23,18 +23,18 @@ const CustomerOrder = ({onClose}) => {
                         <Typography>{foodItem.qty} x {foodItem.name}</Typography>
                         <Typography>RM{(foodItem.qty * foodItem.price).toFixed(2)}</Typography>
                     </Box>
-                )
+                );
             })}
             <Box className='custom-box' color='primary.main'>
                 <Typography fontWeight='bold'>Total</Typography>
                 <Typography fontWeight='bold'>RM{item.totalPrice.toFixed(2)}</Typography>
             </Box>
-        </Paper>
+        </Paper>;
     });
 
     return <OrderUI onClose={onClose}>
         {orders.length === 0 ? 'You have no orders yet' : renderOrderList}
-    </OrderUI>
-}
+    </OrderUI>;
+};
 
 export default CustomerOrder;

@@ -11,7 +11,7 @@ const MenuAppBar = ({ children }) => {
         <Stack>
           {loading && <LinearProgress />}
           <Toolbar>
-            <Typography fontFamily='Paytone One' variant="h6" component='div' sx={{ flexGrow: 1 }}>
+            <Typography fontFamily='Paytone One' variant='h6' component='div' sx={{ flexGrow: 1 }}>
               cuisinemalaise
             </Typography>
             <Button color='inherit' onClick={toggleUser}>
@@ -25,6 +25,6 @@ const MenuAppBar = ({ children }) => {
       </AppBar>
     </Box>
   );
-}
+};
 
 export default MenuAppBar;

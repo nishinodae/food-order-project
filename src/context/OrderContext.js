@@ -3,11 +3,11 @@
 //Preparing (on customer page) => when admin click 'prepare order'
 //Completed (on customer page) => when admin click 'order completed'
 
-import { createContext, useCallback, useContext, useEffect, useReducer, useState } from "react"
-import { editOrder, getAllOrder, getOrderByUserId, postOrder } from "../api/order";
+import { createContext, useCallback, useContext, useEffect, useReducer, useState } from 'react';
+import { editOrder, getAllOrder, getOrderByUserId, postOrder } from '../api/order';
 import { v4 as uuidv4 } from 'uuid';
-import { useAuthContext } from "./AuthContext";
-import formatDateTime from "../utils/formatDateTime";
+import { useAuthContext } from './AuthContext';
+import formatDateTime from '../utils/formatDateTime';
 
 const initialOrderState = {
     orders: [],
@@ -31,12 +31,12 @@ const orderReducer = (state, action) => {
         case 'LOAD_ORDER':
             return {
                 ...state, orders: action.payload
-            }
+            };
         case 'CREATE_ORDER':
             return {
                 ...state,
                 orders: [action.payload, ...state.orders]
-            }
+            };
         case 'UPDATE_STATUS':
             return {
                 ...state,
@@ -45,13 +45,13 @@ const orderReducer = (state, action) => {
                         ...order,
                         status: action.payload.status,
                         timestamp: action.payload.timestamp
-                    } : order
+                    } : order;
                 })
-            }
+            };
         default:
             return state;
     }
-}
+};
 
 const orderContext = createContext();
 
@@ -74,7 +74,7 @@ export const OrderProvider = ({ children }) => {
                 payload: data
             });
         }
-    }, [user, customerID])
+    }, [user, customerID]);
 
     useEffect(() => {
         const handleStorageChange = (e) => {
@@ -82,15 +82,15 @@ export const OrderProvider = ({ children }) => {
                 loadOrder();
             }
         };
-        window.addEventListener("storage", handleStorageChange);
+        window.addEventListener('storage', handleStorageChange);
         loadOrder();
 
-        return () => window.removeEventListener("storage", handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
     }, [loadOrder]);
 
     useEffect(() => {
         setnewOrderLength(orders.filter((item) => item.status === 'Ordered').length);
-    }, [orders])
+    }, [orders]);
 
     const createOrder = async (order) => {
         try {
@@ -98,13 +98,13 @@ export const OrderProvider = ({ children }) => {
                 ...order,
                 id: uuidv4(),
                 timestamp: formatDateTime(),
-                status: "Ordered"
+                status: 'Ordered'
             });
             if (data) {
                 dispatch({
                     type: 'CREATE_ORDER',
                     payload: data
-                })
+                });
             }
             return true;
         }
@@ -112,7 +112,7 @@ export const OrderProvider = ({ children }) => {
             alert(e.message);
             return false;
         }
-    }
+    };
     const updateOrder = async (order) => {
         const data = await editOrder({
             ...order,
@@ -122,9 +122,9 @@ export const OrderProvider = ({ children }) => {
             dispatch({
                 type: 'UPDATE_STATUS',
                 payload: data
-            })
+            });
         }
-    }
+    };
     const value = {
         orders,
         createOrder,
@@ -137,10 +137,7 @@ export const OrderProvider = ({ children }) => {
 
     return <orderContext.Provider value={value}>
         {children}
-    </orderContext.Provider>
-}
+    </orderContext.Provider>;
+};
 
 export const useOrderContext = () => useContext(orderContext);
-
-
-

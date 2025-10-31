@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useFoodContext } from "./FoodMngrContext";
+import { createContext, useContext, useEffect, useState } from 'react';
+import { useFoodContext } from './FoodMngrContext';
 
 const cartContext = createContext();
 
@@ -54,7 +54,7 @@ export function CartContextProvider({ children }) {
         setCart([]);
         setTotalPrice(0);
         setCartLength(0);
-    }
+    };
 
     //add food to cart
     const addFoodToCart = (id) => {
@@ -126,11 +126,11 @@ export function CartContextProvider({ children }) {
         totalPrice,
         // cartInfo,
         cartLength
-    }
+    };
 
     return <cartContext.Provider value={value}>
         {children}
-    </cartContext.Provider>
+    </cartContext.Provider>;
 }
 
 export function useCartContext() {

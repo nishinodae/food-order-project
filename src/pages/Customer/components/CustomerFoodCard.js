@@ -13,12 +13,12 @@ const CustomerFoodCard = ({ item, currentCount }) => {
             sx={{
                 display: 'flex', borderRadius: '50px', alignItems: 'center',
                 border: 1,
-                color: "primary.main"
+                color: 'primary.main'
             }}>
             <IconButton
                 color='primary'
                 onClick={() => {
-                    removeFoodFromCart(item.id)
+                    removeFoodFromCart(item.id);
                 }}
             >
                 <RemoveIcon sx={{ fontSize: '12px' }} />
@@ -27,12 +27,12 @@ const CustomerFoodCard = ({ item, currentCount }) => {
             <IconButton
                 color='primary'
                 onClick={() => {
-                    addFoodToCart(item.id)
+                    addFoodToCart(item.id);
                 }}
             >
                 <AddIcon sx={{ fontSize: '12px' }} />
             </IconButton></Paper>
-    </FoodCard>
-}
+    </FoodCard>;
+};
 
 export default CustomerFoodCard;

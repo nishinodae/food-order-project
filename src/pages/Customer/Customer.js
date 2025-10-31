@@ -1,14 +1,14 @@
 import { Badge, Grid, Stack, Tooltip, IconButton } from '@mui/material';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { useState } from "react";
+import { useState } from 'react';
 import { useFoodContext } from '../../context/FoodMngrContext';
 import { useCartContext } from '../../context/CartContext';
 import { useOrderContext } from '../../context/OrderContext';
-import Headline from "../../components/Headline";
-import MenuAppBar from "../../components/MenuAppBar";
-import CustomerFoodCard from "./components/CustomerFoodCard";
-import CartUI from "./components/CartUI";
+import Headline from '../../components/Headline';
+import MenuAppBar from '../../components/MenuAppBar';
+import CustomerFoodCard from './components/CustomerFoodCard';
+import CartUI from './components/CartUI';
 import CustomerOrder from './components/CustomerOrder';
 
 const Customer = () => {
@@ -20,11 +20,11 @@ const Customer = () => {
         let currentCount = 0;
         for (const cartItem of cart) {
             if (cartItem.id === item.id) {
-                currentCount = cartItem.qty
+                currentCount = cartItem.qty;
                 break;
             }
         }
-        return <CustomerFoodCard key={item.id} item={item} currentCount={currentCount} />
+        return <CustomerFoodCard key={item.id} item={item} currentCount={currentCount} />;
     });
     return (
         <>
@@ -39,8 +39,8 @@ const Customer = () => {
                 <Tooltip title='My Cart'>
                     <IconButton color='inherit' onClick={() => setShowCart(true)}>
                         <Badge sx={{
-                            "& .MuiBadge-badge": {
-                                bgcolor: 'secondary.main', color: "primary.main"
+                            '& .MuiBadge-badge': {
+                                bgcolor: 'secondary.main', color: 'primary.main'
                             }
                         }}
                             badgeContent={cartLength}>
@@ -58,9 +58,8 @@ const Customer = () => {
             </Stack>
             {/* } */}
 
-
         </>
     );
-}
+};
 
 export default Customer;

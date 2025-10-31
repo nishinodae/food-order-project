@@ -1,14 +1,14 @@
-import { Badge, Button, Dialog, Grid, IconButton, Stack, Tooltip } from "@mui/material";
+import { Badge, Button, Grid, IconButton, Stack, Tooltip } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { useState } from "react";
-import { useFoodContext } from "../../context/FoodMngrContext";
-import FoodCard from "../../components/FoodCard";
-import MenuAppBar from "../../components/MenuAppBar";
-import Headline from "../../components/Headline";
+import { useState } from 'react';
+import { useFoodContext } from '../../context/FoodMngrContext';
+import FoodCard from '../../components/FoodCard';
+import MenuAppBar from '../../components/MenuAppBar';
+import Headline from '../../components/Headline';
 import FormFoodDialog from './components/FormFoodDialog';
-import DeleteDialog from "./components/DeleteDialog";
-import { useOrderContext } from "../../context/OrderContext";
-import AdminOrder from "./components/AdminOrder";
+import DeleteDialog from './components/DeleteDialog';
+import { useOrderContext } from '../../context/OrderContext';
+import AdminOrder from './components/AdminOrder';
 
 const Admin = () => {
     const [showFormFood, setShowFormFood] = useState(false);
@@ -36,8 +36,8 @@ const Admin = () => {
                 <Tooltip title='Orders'>
                     <IconButton color='inherit' onClick={() => setShowOrder(true)}>
                         <Badge sx={{
-                            "& .MuiBadge-badge": {
-                                bgcolor: 'secondary.main', color: "primary.main"
+                            '& .MuiBadge-badge': {
+                                bgcolor: 'secondary.main', color: 'primary.main'
                             }
                         }}
                             badgeContent={newOrderLength}>
@@ -54,8 +54,8 @@ const Admin = () => {
             </Stack>
         </>
 
-    )
+    );
 
-}
+};
 
 export default Admin;

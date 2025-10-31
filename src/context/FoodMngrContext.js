@@ -1,8 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { deleteFood, getFood, postFood, putFood } from "../api/food";
-import { useAuthContext } from "./AuthContext";
-import { getImage, postImage, uploadLocalImage } from "../api/foodImages";
+import { deleteFood, getFood, postFood, putFood } from '../api/food';
+import { useAuthContext } from './AuthContext';
+import { getImage, postImage, uploadLocalImage } from '../api/foodImages';
 
 const foodMngrContext = createContext();
 
@@ -22,13 +22,13 @@ export const FoodMngrProvider = ({ children }) => {
     const retrieveFoods = async () => {
         const data = await getFood();
         if (data) setFood(data);
-    }
+    };
 
     //retrieve available food images
     const retrieveFoodImages = async () => {
         const data = await getImage();
         if (data) setFoodImages(data);
-    }
+    };
 
     //re-fetch and update across tabs using localStorage
     useEffect(() => {
@@ -37,11 +37,11 @@ export const FoodMngrProvider = ({ children }) => {
                 retrieveFoods();
             }
         };
-        window.addEventListener("storage", handleStorageChange);
+        window.addEventListener('storage', handleStorageChange);
         retrieveFoods();
         retrieveFoodImages();
-        return () => window.removeEventListener("storage", handleStorageChange);
-    }, [])
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
 
     //add food
     const addFood = async (newFood) => {
@@ -49,15 +49,15 @@ export const FoodMngrProvider = ({ children }) => {
         if (currentImage) {
             let imgURL;
             if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
-                imgURL = currentImage
+                imgURL = currentImage;
             }
             else {
                 imgURL = await uploadLocalImage(currentImage);
                 const dataImg = await postImage({
                     id: uuidv4(),
                     img: imgURL
-                })
-                setFoodImages([...foodImages, dataImg])
+                });
+                setFoodImages([...foodImages, dataImg]);
             }
             if (imgURL) {
                 const request = {
@@ -88,15 +88,15 @@ export const FoodMngrProvider = ({ children }) => {
         if (currentImage) {
             let imgURL;
             if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
-                imgURL = currentImage
+                imgURL = currentImage;
             }
             else {
                 imgURL = await uploadLocalImage(currentImage);
                 const dataImg = await postImage({
                     id: uuidv4(),
                     img: imgURL
-                })
-                setFoodImages([...foodImages, dataImg])
+                });
+                setFoodImages([...foodImages, dataImg]);
             }
             if (imgURL) {
                 const data = await putFood({
@@ -106,7 +106,7 @@ export const FoodMngrProvider = ({ children }) => {
                 const { id } = data;
                 setFood(food.map(oldFood =>
                     oldFood.id === id ? { ...data } : oldFood
-                ))
+                ));
                 setCurrentImage(null);
             }
         }
@@ -118,7 +118,7 @@ export const FoodMngrProvider = ({ children }) => {
             const { id } = data;
             setFood(food.map(oldFood =>
                 oldFood.id === id ? { ...data } : oldFood
-            ))
+            ));
         }
         setLoading(false);
     };
@@ -149,8 +149,6 @@ export const FoodMngrProvider = ({ children }) => {
                 return {
                     ...state,
                     [action.field]: action.value,
-                    // error: '',
-                    // helperText: ''
                 };
             case 'SET_ERROR':
                 return {
@@ -158,7 +156,7 @@ export const FoodMngrProvider = ({ children }) => {
                     error: action.value,
                     helperText: action.helperText
                 };
-            case 'EDITING':
+            case 'EDITING_MODE':
                 return {
                     ...state,
                     ...action.payload,
@@ -187,12 +185,9 @@ export const FoodMngrProvider = ({ children }) => {
 
     return <foodMngrContext.Provider value={value}>
         {children}
-    </foodMngrContext.Provider>
-}
-
-export const useFoodContext = () => {
-    return useContext(foodMngrContext)
+    </foodMngrContext.Provider>;
 };
 
-
-
+export const useFoodContext = () => {
+    return useContext(foodMngrContext);
+};

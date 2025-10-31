@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogContent, DialogTitle, IconButton, Paper, Typography } from "@mui/material";
+import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const OrderUI = ({ onClose, children }) => {
@@ -16,6 +16,6 @@ const OrderUI = ({ onClose, children }) => {
             </DialogContent>
         </Dialog>
     );
-}
+};
 
 export default OrderUI;

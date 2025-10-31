@@ -8,8 +8,8 @@ const FoodCard = ({ foodItem, children }) => {
     const card = <Card>
         <CardActionArea onClick={() => setshowFoodFull(true)}>
             <CardMedia
-                component="img"
-                height="210"
+                component='img'
+                height='210'
                 loading='lazy'
                 src={!foodItem.img ? imgplaceholder : foodItem.img}
                 // src={foodItem.img || imgplaceholder}
@@ -18,7 +18,7 @@ const FoodCard = ({ foodItem, children }) => {
                 //     e.target.onerror = null;
                 //     e.target.src = imgplaceholder;
                 // }}
-                sx={{ objectFit: "contain" }}
+                sx={{ objectFit: 'contain' }}
             />
             <CardContent sx={{ p: '10px 16px 0px 16px' }}>
                 <Box className='custom-box' p={0}>
@@ -29,7 +29,7 @@ const FoodCard = ({ foodItem, children }) => {
                         RM{foodItem.price.toFixed(2)}
                     </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }} className={showFoodFull?'':'hide-overflow'}>
+                <Typography variant='body2' sx={{ color: 'text.secondary' }} className={showFoodFull?'':'hide-overflow'}>
                     {foodItem.desc}
                 </Typography>
             </CardContent>
@@ -37,7 +37,7 @@ const FoodCard = ({ foodItem, children }) => {
         <CardActions>
             {children}
         </CardActions>
-    </Card>
+    </Card>;
 
     return (
         <Grid size={{ sm: 6, md: 3 }}>
@@ -48,6 +48,6 @@ const FoodCard = ({ foodItem, children }) => {
         </Grid>
 
     );
-}
+};
 
 export default FoodCard;

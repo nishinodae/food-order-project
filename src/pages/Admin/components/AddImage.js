@@ -1,10 +1,10 @@
-import { Button, CircularProgress, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import { Button, CircularProgress, Menu, MenuItem, Stack, Typography } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HistoryIcon from '@mui/icons-material/History';
 import LaptopIcon from '@mui/icons-material/Laptop';
-import { useEffect, useRef, useState } from "react";
-import { useFoodContext } from "../../../context/FoodMngrContext";
-import FilePicker from "./FilePicker";
+import { useEffect, useRef, useState } from 'react';
+import { useFoodContext } from '../../../context/FoodMngrContext';
+import FilePicker from './FilePicker';
 
 const AddImage = () => {
     const { currentImage, setCurrentImage } = useFoodContext();
@@ -16,9 +16,9 @@ const AddImage = () => {
 
     useEffect(() => {
         if (currentImage) {
-            if (typeof (currentImage) !== "string") {
+            if (typeof (currentImage) !== 'string') {
                 //current image is a File
-                setImgDisplay([currentImage.name, URL.createObjectURL(currentImage)])
+                setImgDisplay([currentImage.name, URL.createObjectURL(currentImage)]);
             }
             else {
                 //current image source is url from cloudinary
@@ -35,11 +35,10 @@ const AddImage = () => {
         const reader = new FileReader();
 
         reader.onload = (e) => {
-            img.src = e.target.result
+            img.src = e.target.result;
         };
 
         reader.readAsDataURL(file);
-        // img.src = URL.createObjectURL(file);
         img.onload = () => {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -47,8 +46,8 @@ const AddImage = () => {
             canvas.width = img.width;
             canvas.height = img.height;
 
-            // Fill the background with white before drawing the PNG
-            ctx.fillStyle = '#FFFFFF'; // White background
+            // Fill the background with white before drawing
+            ctx.fillStyle = '#FFFFFF'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(img, 0, 0);
 
@@ -56,35 +55,29 @@ const AddImage = () => {
                 if (blob.size > 10 * 1024 * 1024) {
                     compress(new File([blob]));
                 } else {
-                    let newfile = new File([blob], `${file.name.replace(/\.[^/.]+$/, "")}-compressed.jpg`, {
-                        type: "image/jpeg",
+                    let newfile = new File([blob], `${file.name.replace(/\.[^/.]+$/, '')}-compressed.jpg`, {
+                        type: 'image/jpeg',
                         lastModified: new Date().getTime()
                     });
-
-                    // if (newfile.size > 10 * 1024 * 1024) {
-                    //     compress(newfile);
-                    // } else {
                     setCurrentImage(newfile);
-                    // setLoading(false);
-                    // }
                 }
 
             },
                 'image/jpeg', 0.7
-            )
+            );
 
-        }
-    }
+        };
+    };
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
-    }
+    };
     const handleMenuClose = () => setAnchorEl(null);
 
     const handleLocalFile = () => {
         handleMenuClose();
         fileInputRef.current.click();
-    }
+    };
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -92,8 +85,6 @@ const AddImage = () => {
             setLoading(true);
             //file size should not be larger than 10MB
             if (file.size > 10 * 1024 * 1024) {
-                // let compressedFile = await compress(file);
-                // setCurrentImage(compressedFile);
                 await compress(file);
             }
             else if (!file.type.startsWith('image/')) {
@@ -102,16 +93,15 @@ const AddImage = () => {
                 return;
             } else {
                 setCurrentImage(file);
-                // setLoading(false);
             }
         }
-    }
+    };
 
     const handleFromUploaded = () => {
         setLoading(true);
         handleMenuClose();
         setOpenFilePicker(true);
-    }
+    };
 
     return (
         <Stack>
@@ -125,7 +115,7 @@ const AddImage = () => {
                 {loading && <CircularProgress size='12px' />}
 
                 <Menu
-                    id="menu-appbar"
+                    id='menu-appbar'
                     anchorEl={anchorEl}
                     anchorOrigin={{
                         vertical: 'top',
@@ -143,8 +133,8 @@ const AddImage = () => {
                     <MenuItem onClick={handleFromUploaded}><HistoryIcon sx={{ mr: '5px' }} />Uploaded Files</MenuItem>
                 </Menu>
                 <input
-                    type="file"
-                    accept="image/*"
+                    type='file'
+                    accept='image/*'
                     ref={fileInputRef}
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
@@ -155,21 +145,15 @@ const AddImage = () => {
                 }} />}
 
             </div>
-            {/* {currentImage &&
-                <div>
-                    <Typography fontSize='12px'>{(typeof (currentImage) === File) ? currentImage.name : currentImage.split('/').pop()}</Typography>
-                    <img src={(typeof (currentImage) === File) ? URL.createObjectURL(currentImage) : currentImage} alt="" width='100px' height='100px' />
-                </div>
-            } */}
             {currentImage &&
                 <div>
                     <Typography fontSize='12px'>{imgDisplay[0]}</Typography>
-                    <img loading='lazy' src={imgDisplay[1]} alt="" width='100px' height='100px' />
+                    <img loading='lazy' src={imgDisplay[1]} alt='' width='100px' height='100px' />
                 </div>
             }
         </Stack>
 
-    )
-}
+    );
+};
 
 export default AddImage;
