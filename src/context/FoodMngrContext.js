@@ -7,12 +7,6 @@ import { getImage, postImage, uploadLocalImage } from '../api/foodImages';
 const foodMngrContext = createContext();
 
 export const FoodMngrProvider = ({ children }) => {
-    // const LOCAL_STORAGE_FOOD_KEY = 'foodStorage';
-    // const [food, setFood] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_FOOD_KEY)) || []);
-
-    // useEffect(() => {
-    //     localStorage.setItem(LOCAL_STORAGE_FOOD_KEY, JSON.stringify(food));
-    // }, [food]);
     const { setLoading } = useAuthContext();
     const [food, setFood] = useState([]);
     const [foodImages, setFoodImages] = useState([]);

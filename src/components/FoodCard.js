@@ -11,25 +11,24 @@ const FoodCard = ({ foodItem, children }) => {
                 component='img'
                 height='210'
                 loading='lazy'
-                src={!foodItem.img ? imgplaceholder : foodItem.img}
-                // src={foodItem.img || imgplaceholder}
-                alt={foodItem.img.split('/').pop() || 'not available'}
-                // onError={(e) => {
-                //     e.target.onerror = null;
-                //     e.target.src = imgplaceholder;
-                // }}
                 sx={{ objectFit: 'contain' }}
+                src={foodItem.img || imgplaceholder}
+                alt={foodItem.img?.split('/').pop() || 'not available'}
+            // onError={(e) => {
+            //     e.target.onerror = null;
+            //     e.target.src = imgplaceholder;
+            // }}
             />
             <CardContent sx={{ p: '10px 16px 0px 16px' }}>
                 <Box className='custom-box' p={0}>
-                    <Typography fontSize='20px' pr='8px' className={showFoodFull?'':'hide-overflow'}>
+                    <Typography fontSize='20px' pr='8px' className={showFoodFull ? '' : 'hide-overflow'}>
                         {foodItem.name}
                     </Typography>
                     <Typography fontWeight='bold' variant='h6'>
                         RM{foodItem.price.toFixed(2)}
                     </Typography>
                 </Box>
-                <Typography variant='body2' sx={{ color: 'text.secondary' }} className={showFoodFull?'':'hide-overflow'}>
+                <Typography variant='body2' sx={{ color: 'text.secondary' }} className={showFoodFull ? '' : 'hide-overflow'}>
                     {foodItem.desc}
                 </Typography>
             </CardContent>

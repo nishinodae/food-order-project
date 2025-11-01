@@ -37,7 +37,7 @@ const CartUI = ({ onClose }) => {
                     clearCart();
                     onClose();
                     setShowOrder(true);
-                };
+                }
             }
         }
     };

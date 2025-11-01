@@ -90,6 +90,6 @@ export const getOrderByUserId = async (id) => {
 //         return response.json();
 //     }
 //     catch (e) {
-//         console.error('Error:', e);
+//         alert('Error:', e);
 //     }
 // }

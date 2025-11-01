@@ -38,7 +38,6 @@ export function CartContextProvider({ children }) {
             }
             setTotalPrice(currentTotal);
             setCartLength(qty);
-            // localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(cart));
         }
         else if (food.length === 0 && JSON.parse(localStorage.getItem(LOCAL_STORAGE_CART_KEY)).length === 0 && cart.length > 0) {
             clearCart();
@@ -68,15 +67,12 @@ export function CartContextProvider({ children }) {
         if (foodExistinCart) {
             setCart(cart.map(oldItem =>
                 oldItem.id === id ? {
-                    // ...food, //food contain id, original price, current qty
-                    // price: oldItem.price + food.price,
                     id: id,
                     qty: oldItem.qty + 1,
                 } : oldItem
             ));
         } else {
             setCart([...cart, {
-                // ...food, //food contain id, original price, current qty
                 id: id,
                 qty: 1,
             }]);
@@ -102,8 +98,6 @@ export function CartContextProvider({ children }) {
             } else {
                 newCart = cart.map(oldItem =>
                     oldItem.id === id ? {
-                        // ...food, //food contain id, original price, current qty
-                        // price: oldItem.price - food.price,
                         id: id,
                         qty: oldItem.qty - 1
                     } : oldItem
@@ -111,7 +105,6 @@ export function CartContextProvider({ children }) {
             }
             setCart(newCart);
             if (newCart.length === 0) {
-                // localStorage.setItem(LOCAL_STORAGE_CART_KEY, '[]');
                 setTotalPrice(0);
                 setCartLength(0);
             }
@@ -124,7 +117,6 @@ export function CartContextProvider({ children }) {
         addFoodToCart,
         removeFoodFromCart,
         totalPrice,
-        // cartInfo,
         cartLength
     };
 

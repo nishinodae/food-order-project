@@ -1,13 +1,14 @@
 import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from '@mui/material';
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useFoodContext } from '../../../context/FoodMngrContext';
 import AddImage from './AddImage';
+import useDebounceTimeout from '../../../utils/debounce';
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
-    const debounceRef = useRef();
     const { addFood, editFoodHandler, setCurrentImage, initialFormState, formReducer } = useFoodContext();
     const [form, dispatch] = useReducer(formReducer, initialFormState);
     const { id, foodname, desc, price, error, helperText, mode } = form;
+    const debounce = useDebounceTimeout();
 
     useEffect(() => {
         if (foodItem) {
@@ -25,12 +26,6 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
         }
     }, [foodItem]);
 
-    useEffect(() => {
-        return () => {
-            clearTimeout(debounceRef.current);
-        };
-    }, []);
-
     const handleChange = (e) => {
         dispatch({
             type: 'CHANGE_FIELD',
@@ -39,8 +34,7 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
         });
 
         if (error !== '') {
-            clearTimeout(debounceRef.current);
-            debounceRef.current = setTimeout(() => {
+            debounce(() => {
                 dispatch({
                     type: 'SET_ERROR',
                     value: '',

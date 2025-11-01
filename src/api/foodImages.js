@@ -6,20 +6,13 @@ export const uploadLocalImage = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', 'upload-unsigned-food-image');
+        
         const url = process.env.REACT_APP_API_URL;
-        // const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`
-        // let req = new Request(url);
+        
         const response = await fetch(url,
             {
                 method: 'POST',
                 body: formData
-                // headers: {
-                //     "Content-Type": "application/json",
-                // },
-                // body: {
-                //     'file': file,
-                //     'upload_preset': 'upload-unsigned-food-image'
-                // },
             }
         );
         if (response.ok) {

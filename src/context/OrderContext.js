@@ -1,8 +1,3 @@
-//Submitted (on customer page) => after customer click checkout
-//Cancelled (on customer page) => when admin click 'reject order'
-//Preparing (on customer page) => when admin click 'prepare order'
-//Completed (on customer page) => when admin click 'order completed'
-
 import { createContext, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { editOrder, getAllOrder, getOrderByUserId, postOrder } from '../api/order';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,19 +6,6 @@ import formatDateTime from '../utils/formatDateTime';
 
 const initialOrderState = {
     orders: [],
-
-    //   id: '',
-    //   userid: "1",
-    //   timestamp: "",
-    //   food: [
-    //     {
-    //       name: "",
-    //       qty: 0,
-    //       price:0
-    //     },
-    //   ],
-    //   totalPrice: 0,
-    //   status: "Submitted"
 };
 
 const orderReducer = (state, action) => {
