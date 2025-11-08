@@ -9,14 +9,24 @@
     }
   ],
   "foodImages": [
-    {
-      "id": "31226f3d-595f-4778-85c6-a6fcd92b054e",
-      "imgURL": ""
-    }
   ],
   "orders": [
     {
-      "id": "ac58e4a3-3f5f-4daa-8bc9-be9cf867ecbc",
+      "id": "f18e4715-1965-4fac-a40a-c476cee45a50",
+      "userid": 1,
+      "food": [
+        {
+          "name": "Nasi lemak",
+          "price": 8.5,
+          "qty": 1
+        }
+      ],
+      "totalPrice": 8.5,
+      "timestamp": 1762616433814,
+      "status": "Completed"
+    },
+    {
+      "id": "503b26f6-8477-41ed-8dd3-ae9edf7d4344",
       "userid": 1,
       "food": [
         {
@@ -36,50 +46,40 @@
         }
       ],
       "totalPrice": 22.5,
-      "timestamp": "31 Oct, 13:40",
+      "timestamp": 1762618601077,
       "status": "Cancelled"
     },
     {
-      "id": "a34c67ff-f067-4235-8290-04b945caede3",
-      "userid": 1,
-      "food": [
-        {
-          "name": "Nasi lemak",
-          "price": 8.5,
-          "qty": 2
-        },
-        {
-          "name": "pizza",
-          "price": 10,
-          "qty": 2
-        }
-      ],
-      "totalPrice": 37,
-      "timestamp": "31 Oct, 13:47",
-      "status": "Completed"
-    },
-    {
-      "id": "a1f74ccb-1b6e-4a5c-9dfe-55596c07efbe",
+      "id": "6f6c97b7-683d-40a9-b148-c64643e1931c",
       "userid": 1,
       "food": [
         {
           "name": "nasi goreng",
           "price": 7,
           "qty": 1
-        },
+        }
+      ],
+      "totalPrice": 7,
+      "timestamp": 1762618599566,
+      "status": "Preparing"
+    },
+    {
+      "id": "617d72c5-5994-4fce-b7c3-da43fc8bd7aa",
+      "userid": 1,
+      "food": [
         {
           "name": "burger",
           "price": 4,
           "qty": 1
         },
         {
-          "name": "nasi lemak",
-          "price": 2,
+          "name": "pizza",
+          "price": 10,
           "qty": 1
         }
       ],
-      "totalPrice": 13,
-      "timestamp": "31 Oct, 13:52",
+      "totalPrice": 14,
+      "timestamp": 1762619437578,
       "status": "Ordered"
     }
   ]
