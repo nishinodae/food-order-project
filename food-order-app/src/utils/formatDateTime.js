@@ -1,7 +1,7 @@
-const formatDateTime = () => {
-    const now = new Date(Date.now());
+const formatDateTime = (timestamp) => {
+    const t = new Date(timestamp);
 
-    const formatted = now.toLocaleString('en-MY', {
+    const formatted = t.toLocaleString('en-MY', {
         day: '2-digit',
         month: 'short',
         hour: '2-digit',

@@ -1,6 +1,7 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { useOrderContext } from '../../../context/OrderContext';
 import OrderUI from '../../../components/OrderUI';
+import formatDateTime from '../../../utils/formatDateTime';
 
 const AdminOrder = ({ onClose }) => {
     const { orders, updateOrder } = useOrderContext();
@@ -36,7 +37,7 @@ const AdminOrder = ({ onClose }) => {
             }}>
 
             <Box className='custom-box' color='text.secondary'>
-                <Typography>{item.timestamp}</Typography>
+                <Typography>{formatDateTime(item.timestamp)}</Typography>
                 <Typography>Customer paid RM{item.totalPrice.toFixed(2)}</Typography>
             </Box>
             {item.food.map((foodItem, index) => {

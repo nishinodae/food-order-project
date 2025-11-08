@@ -2,7 +2,6 @@ import { createContext, useCallback, useContext, useEffect, useReducer, useState
 import { editOrder, getAllOrder, getOrderByUserId, postOrder } from '../api/order';
 import { v4 as uuidv4 } from 'uuid';
 import { useAuthContext } from './AuthContext';
-import formatDateTime from '../utils/formatDateTime';
 
 const initialOrderState = {
     orders: [],
@@ -79,7 +78,7 @@ export const OrderProvider = ({ children }) => {
             const data = await postOrder({
                 ...order,
                 id: uuidv4(),
-                timestamp: formatDateTime(),
+                timestamp: Date.now(),
                 status: 'Ordered'
             });
             if (data) {
@@ -98,7 +97,7 @@ export const OrderProvider = ({ children }) => {
     const updateOrder = async (order) => {
         const data = await editOrder({
             ...order,
-            timestamp: formatDateTime(),
+            timestamp: Date.now()
         });
         if (data) {
             dispatch({
