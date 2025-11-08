@@ -42,14 +42,18 @@ export const FoodMngrProvider = ({ children }) => {
         setLoading(true);
         if (currentImage) {
             let imgURL;
+
+            //if image is already in json-server
             if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
                 imgURL = currentImage;
             }
             else {
                 imgURL = await uploadLocalImage(currentImage);
+
+                //post image to json-server after uploading it to cloudinary
                 const dataImg = await postImage({
                     id: uuidv4(),
-                    img: imgURL
+                    imgURL: imgURL
                 });
                 setFoodImages([...foodImages, dataImg]);
             }
@@ -57,7 +61,7 @@ export const FoodMngrProvider = ({ children }) => {
                 const request = {
                     id: uuidv4(),
                     ...newFood,
-                    img: imgURL
+                    imgURL: imgURL
                 };
                 const data = await postFood(request);
                 setFood([...food, data]);
@@ -68,7 +72,7 @@ export const FoodMngrProvider = ({ children }) => {
             const request = {
                 id: uuidv4(),
                 ...newFood,
-                img: ''
+                imgURL: ''
             };
             const data = await postFood(request);
             setFood([...food, data]);
@@ -88,13 +92,13 @@ export const FoodMngrProvider = ({ children }) => {
                 imgURL = await uploadLocalImage(currentImage);
                 const dataImg = await postImage({
                     id: uuidv4(),
-                    img: imgURL
+                    imgURL: imgURL
                 });
                 setFoodImages([...foodImages, dataImg]);
             }
             if (imgURL) {
                 const data = await putFood({
-                    img: imgURL,
+                    imgURL: imgURL,
                     ...item,
                 });
                 const { id } = data;
@@ -106,7 +110,7 @@ export const FoodMngrProvider = ({ children }) => {
         }
         else {
             const data = await putFood({
-                img: '',
+                imgURL: '',
                 ...item,
             });
             const { id } = data;

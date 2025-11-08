@@ -7,6 +7,7 @@ export const uploadLocalImage = async (file) => {
         formData.append('file', file);
         formData.append('upload_preset', 'upload-unsigned-food-image');
         
+        //I stored cloudinary api url in .env as REACT_APP_API_URL
         const url = process.env.REACT_APP_API_URL;
         
         const response = await fetch(url,
@@ -17,7 +18,7 @@ export const uploadLocalImage = async (file) => {
         );
         if (response.ok) {
             const data = await response.json();
-            return data.secure_url;
+            return data.secure_url; //image url returned by cloudinary
         } else {
             alert('Failed to upload image');
         }
