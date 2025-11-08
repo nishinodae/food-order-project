@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Food Order App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+A food order app that has 2 types of users; customer and admin. Built with React, Context API, [Material UI](https://mui.com/), [cloudinary](https://cloudinary.com/), localStorage, and json-server.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+For admin:
+- Add, edit, and delete food
+- View food details
+- Compress and upload food image to cloudinary
+- Reuse uploaded image files
+- View orders
+- Change status of orders: Prepare/Reject/Completed
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+For customer:
+- View food details
+- Add food to cart
+- Remove food from cart
+- View cart, checkout
+- View orders history
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Running the Demo
 
-### `npm test`
+This project includes:
+- Frontend: `food-order-app/`
+- Backend (mock API): `server-api/`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Backend Setup
 
-### `npm run build`
+1. Copy the example database:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    cp server-api/db.example.json server-api/db.json
+    ```
+2. Install dependencies and start the server:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    ```bash
+    cd server-api
+    npm install
+    npm start
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> The backend runs on [http://localhost:3006](http://localhost:3006) by default.
 
-### `npm run eject`
+### Frontend Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Install dependencies and start the frontend:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```bash
+    cd food-order-app
+    npm install
+    npm start
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+> The app runs on [http://localhost:3000](http://localhost:3000) by default.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Cloudinary setup
 
-## Learn More
+There are [many ways to upload image to cloudinary](https://cloudinary.com/documentation/upload_images#unsigned_upload), but we are going to upload it programmatically, without a signature.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> Cloudinary REST API URL: https://api.cloudinary.com/v1_1/<your cloud name>/<resource_type>/upload
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Sign up for free on [cloudinary](https://cloudinary.com/users/register_free) so you can get your cloud name.
+2. Create .env file at the project's root.
+3. Store your Cloudinary REST API URL in .env as REACT_APP_API_URL
+    ```
+    REACT_APP_API_URL=https://api.cloudinary.com/v1_1/<your cloud name>/image/upload
+    ```
+4. Store cloudinary's imageURL prefix in .env as REACT_APP_PREFIX_IMAGEURL
+    ```
+    REACT_APP_PREFIX_IMAGEURL=https://res.cloudinary.com/<your cloud name>/image/upload/
+    ```
+5. Using cloudinary console, add upload preset and name it as 'upload-unsigned-food-image'. Please make sure the signing mode is Unsigned.
+    ![Add upload preset at Cloudinary console](upload-preset-cloudinary.jpg)
