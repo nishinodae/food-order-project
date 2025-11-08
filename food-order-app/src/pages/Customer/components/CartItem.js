@@ -8,7 +8,7 @@ const CartItem = ({ item, currentCount }) => {
     const { removeFoodFromCart, addFoodToCart } = useCartContext();
 
     return (<Box display='flex' alignItems='center' mb='10px'>
-        <img loading='lazy' src={item.img || imgplaceholder} alt='' width='100px' height='100px' />
+        <img loading='lazy' src={item.imgURL || imgplaceholder} alt='' width='100px' height='100px' />
         <Stack flex='1' m='0 10px'>
             <Typography variant='body1'>{item.name}</Typography>
             <Typography variant='body2' sx={{ color: 'text.secondary' }}>{item.desc}</Typography>

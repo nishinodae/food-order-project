@@ -5,10 +5,10 @@ const FilePicker = ({ onClose }) => {
     const { setCurrentImage, foodImages } = useFoodContext();
 
     const renderImageList = foodImages.map((item, index) =>
-    (<img key={index} loading='lazy' src={item.img} alt='' width='100px' height='100px'
+    (<img key={index} loading='lazy' src={item.imgURL} alt='' width='100px' height='100px'
         onClick={() => {
             onClose();
-            setCurrentImage(item.img);
+            setCurrentImage(item.imgURL);
         }}
     />
     ));

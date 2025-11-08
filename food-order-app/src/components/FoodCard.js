@@ -12,8 +12,8 @@ const FoodCard = ({ foodItem, children }) => {
                 height='210'
                 loading='lazy'
                 sx={{ objectFit: 'contain' }}
-                src={foodItem.img || imgplaceholder}
-                alt={foodItem.img?.split('/').pop() || 'not available'}
+                src={foodItem.imgURL || imgplaceholder}
+                alt={foodItem.imgURL?.split('/').pop() || 'not available'}
             // onError={(e) => {
             //     e.target.onerror = null;
             //     e.target.src = imgplaceholder;

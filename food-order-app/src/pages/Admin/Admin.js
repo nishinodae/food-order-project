@@ -20,7 +20,7 @@ const Admin = () => {
     (<FoodCard key={item.id} foodItem={item}>
         <Button onClick={() => {
             setEditingItem(item);
-            setCurrentImage(item.img);
+            setCurrentImage(item.imgURL);
         }}>EDIT</Button>
         <Button onClick={() => setDeletingItem(item)}>DELETE</Button>
     </FoodCard>));
