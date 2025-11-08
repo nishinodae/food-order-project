@@ -60,17 +60,17 @@ This project includes:
 
 There are [many ways to upload image to cloudinary](https://cloudinary.com/documentation/upload_images#unsigned_upload), but we are going to upload it programmatically, without a signature.
 
-> Cloudinary REST API URL: https://api.cloudinary.com/v1_1/<your cloud name>/<resource_type>/upload
+> Cloudinary REST API URL: https://api.cloudinary.com/v1_1/<your_cloud_name>/<resource_type>/upload
 
 1. Sign up for free on [cloudinary](https://cloudinary.com/users/register_free) so you can get your cloud name.
-2. Create .env file at the project's root.
-3. Store your Cloudinary REST API URL in .env as REACT_APP_API_URL
+2. Using cloudinary console, add upload preset and name it as 'upload-unsigned-food-image'. Please ensure the signing mode is set to Unsigned.
+    ![Add upload preset at Cloudinary console](upload-preset-cloudinary.jpg)
+3. Create .env file at your project's root.
+4. Store your Cloudinary REST API URL in .env as REACT_APP_API_URL
     ```
     REACT_APP_API_URL=https://api.cloudinary.com/v1_1/<your cloud name>/image/upload
     ```
-4. Store cloudinary's imageURL prefix in .env as REACT_APP_PREFIX_IMAGEURL
+5. Store cloudinary's imageURL prefix in .env as REACT_APP_PREFIX_IMAGEURL
     ```
     REACT_APP_PREFIX_IMAGEURL=https://res.cloudinary.com/<your cloud name>/image/upload/
     ```
-5. Using cloudinary console, add upload preset and name it as 'upload-unsigned-food-image'. Please make sure the signing mode is Unsigned.
-    ![Add upload preset at Cloudinary console](upload-preset-cloudinary.jpg)
