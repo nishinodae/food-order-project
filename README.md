@@ -2,24 +2,24 @@
 
 ## Overview
 
-A food order app that has two types of users: customer and admin. Built with React, Context API, [Material UI](https://mui.com/), [cloudinary](https://cloudinary.com/), localStorage, and json-server.
+A food ordering application featuring two user roles: **Customer** and **Admin**. Built with React, Context API, [Material UI](https://mui.com/), [Cloudinary](https://cloudinary.com/), localStorage, and json-server.
 
 ## Features
 
-For admin:
-- Add, edit, and delete food
-- View food details
-- Compress and upload food image to cloudinary
-- Reuse uploaded image files
-- View orders
-- Change status of orders: Prepare/Reject/Completed
+For **Admin**:
+- Add, edit, and delete food items
+- View detailed food information
+- Compress and upload food images to Cloudinary
+- Reuse previously uploaded images
+- View all customer orders
+- Update order status: Prepare, Reject, or Completed
 
-For customer:
+For **Customer**:
+- Browse available food items
 - View food details
-- Add food to cart
-- Remove food from cart
-- View cart, checkout
-- View orders history
+- Add or remove food items from cart
+- View cart, checkout orders
+- View order history
 
 ## Running the Demo
 
@@ -56,25 +56,25 @@ This project includes:
 
 > The app runs on [http://localhost:3000](http://localhost:3000) by default.
 
-### Cloudinary setup
+### Cloudinary Setup
 
-There are [many ways to upload image to cloudinary](https://cloudinary.com/documentation/upload_images#unsigned_upload), but we are going to upload it programmatically, without a signature.
+This app uploads food images programmatically without a signature using the [Cloudinary Unsigned Upload API](https://cloudinary.com/documentation/upload_images#unsigned_upload).
 
 > Cloudinary REST API URL: https://api.cloudinary.com/v1_1/<your_cloud_name>/<resource_type>/upload
 
-1. [Sign up for free on cloudinary](https://cloudinary.com/users/register_free) and get your cloud name.
-2. Using cloudinary console, add upload preset and name it as 'upload-unsigned-food-image'. Please ensure the signing mode is set to Unsigned.
+1. [Sign up for a free Cloudinary account](https://cloudinary.com/users/register_free) to get your cloud name.
+2. In the Cloudinary console, create an Upload Preset named as `upload-unsigned-food-image`. Set the signing mode to Unsigned.
    
     ![Add upload preset at Cloudinary console](upload-preset-cloudinary.jpg)
    
-3. Create .env file at your project's root.
-4. Store your Cloudinary REST API URL in .env as REACT_APP_API_URL:
+3. Create a `.env` file in your project's root directory.
+4. Add your Cloudinary REST API URL in .env as REACT_APP_API_URL:
    
     ```bash
     REACT_APP_API_URL=https://api.cloudinary.com/v1_1/<your cloud name>/image/upload
     ```
     
-5. Store cloudinary's imageURL prefix in .env as REACT_APP_PREFIX_IMAGEURL:
+5. Add your Cloudinary image URL prefix in .env as REACT_APP_PREFIX_IMAGEURL:
    
     ```bash
     REACT_APP_PREFIX_IMAGEURL=https://res.cloudinary.com/<your cloud name>/image/upload/
