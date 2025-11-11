@@ -1,4 +1,4 @@
-body{
+body {
   margin: 0;
 }
 
@@ -6,33 +6,36 @@ img:hover {
   transform: scale(1.2);
 }
 
-.overlay-first, .overlay-second, .overlay-third {
-position: absolute;
-width:100px;
-height:90px;
-top: 78px;
-right: 191px;
-transition: 1s ease;
+.overlay-first,
+.overlay-second,
+.overlay-third {
+  position: absolute;
+  width: 93px;
+  height: 95px;
+  top: 78px;
+  right: 185px;
+  transition: 1s ease;
 }
 
 .overlay-second {
-top: 96px;
-right: 115px;
+  top: 94px;
+  right: 112px;
 }
+
 .overlay-third {
-top: 82px;
-right: 40px;
+  top: 80px;
+  right: 38px;
 }
 
-.custom-box{
+.custom-box {
   padding-top: 10px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.hide-overflow{
+.hide-overflow {
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
