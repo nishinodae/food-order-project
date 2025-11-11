@@ -84,7 +84,8 @@ export const OrderProvider = ({ children }) => {
             return false;
         }
     };
-    const updateOrder = async (order) => {
+
+    const updateOrder = useCallback(async (order) => {
         const data = await editOrder({
             ...order,
             timestamp: Date.now()
@@ -95,7 +96,8 @@ export const OrderProvider = ({ children }) => {
                 payload: data
             });
         }
-    };
+    }, []);
+
     const value = {
         orders: state.orders,
         createOrder,
