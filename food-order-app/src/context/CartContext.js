@@ -39,7 +39,7 @@ export function CartContextProvider({ children }) {
             setTotalPrice(currentTotal);
             setCartLength(qty);
         }
-        else if (food.length === 0 && JSON.parse(localStorage.getItem(LOCAL_STORAGE_CART_KEY)).length === 0 && cart.length > 0) {
+        else if ((food.length === 0 || JSON.parse(localStorage.getItem(LOCAL_STORAGE_CART_KEY))?.length === 0) && cart.length > 0) {
             clearCart();
         }
     }, [cart, food]);
