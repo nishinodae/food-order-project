@@ -27,7 +27,7 @@ const CartItem = ({ item, currentCount }) => {
                             removeFoodFromCart(item.id, false);
                         }}
                     >
-                        <RemoveIcon sx={{ fontSize: '12px' }} />
+                        <RemoveIcon sx={{ fontSize: '14px' }} />
                     </IconButton>
                     <Typography p='0 5px'>{currentCount}</Typography>
                     <IconButton
@@ -36,13 +36,12 @@ const CartItem = ({ item, currentCount }) => {
                             addFoodToCart(item.id);
                         }}
                     >
-                        <AddIcon sx={{ fontSize: '12px' }} />
+                        <AddIcon sx={{ fontSize: '14px' }} />
                     </IconButton>
                 </Paper>
-                <Button sx={{p:0}} onClick={() => { removeFoodFromCart(item.id, true);}}>
-                {/* <DeleteIcon /> */}
-                delete
-            </Button>
+                <Button sx={{ ml: '5px', p: 0 }} onClick={() => { removeFoodFromCart(item.id, true); }}>
+                    delete
+                </Button>
             </Box>
         </Stack>
         <Typography>RM{(item.price * currentCount).toFixed(2)}</Typography>
