@@ -3,11 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { deleteFood, getFood, postFood, putFood } from '../api/food';
 import { useAuthContext } from './AuthContext';
 import { getImage, postImage, uploadLocalImage } from '../api/foodImages';
+import { useOrderContext } from './OrderContext';
 
 const foodMngrContext = createContext();
 
 export const FoodMngrProvider = ({ children }) => {
     const { setLoading } = useAuthContext();
+    const { loadOrder } = useOrderContext();
     const [food, setFood] = useState([]);
     const [foodImages, setFoodImages] = useState([]);
     const [currentImage, setCurrentImage] = useState(null);
@@ -29,6 +31,8 @@ export const FoodMngrProvider = ({ children }) => {
         const handleStorageChange = (e) => {
             if (e.key === 'itemsUpdated') {
                 retrieveFoods();
+            }else if(e.key === 'orderUpdated'){
+                loadOrder();
             }
         };
         window.addEventListener('storage', handleStorageChange);
