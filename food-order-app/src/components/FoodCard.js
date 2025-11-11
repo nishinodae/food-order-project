@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import imgplaceholder from '../assets/placeholder-image.png';
 import { Box, Card, CardMedia, CardContent, CardActions, Grid, Typography, CardActionArea, Dialog } from '@mui/material';
 
@@ -9,15 +9,11 @@ const FoodCard = ({ foodItem, children }) => {
         <CardActionArea onClick={() => setshowFoodFull(true)}>
             <CardMedia
                 component='img'
+                // loading='lazy'
                 height='210'
-                loading='lazy'
                 sx={{ objectFit: 'contain' }}
                 src={foodItem.imgURL || imgplaceholder}
                 alt={foodItem.imgURL?.split('/').pop() || 'not available'}
-            // onError={(e) => {
-            //     e.target.onerror = null;
-            //     e.target.src = imgplaceholder;
-            // }}
             />
             <CardContent sx={{ p: '10px 16px 0px 16px' }}>
                 <Box className='custom-box' p={0}>
@@ -49,4 +45,4 @@ const FoodCard = ({ foodItem, children }) => {
     );
 };
 
-export default FoodCard;
+export default memo(FoodCard);
