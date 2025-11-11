@@ -1,13 +1,13 @@
 import { Badge, Button, Grid, IconButton, Stack, Tooltip } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useFoodContext } from '../../context/FoodMngrContext';
+import { useOrderContext } from '../../context/OrderContext';
 import FoodCard from '../../components/FoodCard';
 import MenuAppBar from '../../components/MenuAppBar';
 import Headline from '../../components/Headline';
 import FormFoodDialog from './components/FormFoodDialog';
 import DeleteDialog from './components/DeleteDialog';
-import { useOrderContext } from '../../context/OrderContext';
 import AdminOrder from './components/AdminOrder';
 
 const Admin = () => {
@@ -16,13 +16,20 @@ const Admin = () => {
     const [deletingItem, setDeletingItem] = useState(null);
     const { food, setCurrentImage } = useFoodContext();
     const { showOrder, setShowOrder, newOrderLength } = useOrderContext();
+
+    const handleEdit = useCallback((item) => {
+        setEditingItem(item);
+        setCurrentImage(item.imgURL);
+    }, []);
+
+    const handleDelete = useCallback((item) => {
+        setDeletingItem(item);
+    }, []);
+
     const renderFoodList = food.map((item) =>
     (<FoodCard key={item.id} foodItem={item}>
-        <Button onClick={() => {
-            setEditingItem(item);
-            setCurrentImage(item.imgURL);
-        }}>EDIT</Button>
-        <Button onClick={() => setDeletingItem(item)}>DELETE</Button>
+        <Button onClick={() => { handleEdit(item); }}>EDIT</Button>
+        <Button onClick={() => { handleDelete(item); }}>DELETE</Button>
     </FoodCard>));
 
     return (
