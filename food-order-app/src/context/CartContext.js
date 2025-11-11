@@ -91,11 +91,13 @@ export function CartContextProvider({ children }) {
         if (foodExistinCart) {
             let newCart;
             if (foodExistinCart.qty <= 1 || all) {
+                //remove from cart
                 newCart = cart.filter((item) => {
                     return item.id !== id;
                 });
 
             } else {
+                //decrease quantity
                 newCart = cart.map(oldItem =>
                     oldItem.id === id ? {
                         id: id,
