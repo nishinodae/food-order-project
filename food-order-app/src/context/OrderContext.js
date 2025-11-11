@@ -21,13 +21,11 @@ const orderReducer = (state, action) => {
         case 'UPDATE_STATUS':
             return {
                 ...state,
-                orders: state.orders.map(order => {
-                    return order.id === action.payload.id ? {
-                        ...order,
-                        status: action.payload.status,
-                        timestamp: action.payload.timestamp
-                    } : order;
-                })
+                orders: state.orders.map(order =>
+                    order.id === action.payload.id
+                        ? { ...order, status: action.payload.status, timestamp: action.payload.timestamp }
+                        : order
+                ).sort((a, b) => b.timestamp - a.timestamp)
             };
         default:
             return state;
@@ -37,7 +35,7 @@ const orderReducer = (state, action) => {
 const orderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
-    const [{ orders }, dispatch] = useReducer(orderReducer, initialOrderState);
+    const [state, dispatch] = useReducer(orderReducer, initialOrderState);
     const { user, customerID } = useAuthContext();
     const [showOrder, setShowOrder] = useState(false);
     const [newOrderLength, setnewOrderLength] = useState(0);
@@ -58,20 +56,12 @@ export const OrderProvider = ({ children }) => {
     }, [user, customerID]);
 
     useEffect(() => {
-        const handleStorageChange = (e) => {
-            if (e.key === 'orderUpdated') {
-                loadOrder();
-            }
-        };
-        window.addEventListener('storage', handleStorageChange);
         loadOrder();
-
-        return () => window.removeEventListener('storage', handleStorageChange);
-    }, [loadOrder]);
+    }, []);
 
     useEffect(() => {
-        setnewOrderLength(orders.filter((item) => item.status === 'Ordered').length);
-    }, [orders]);
+        setnewOrderLength(state.orders.filter((item) => (item.status === 'Ordered' || item.status === 'Preparing')).length);
+    }, [state.orders]);
 
     const createOrder = async (order) => {
         try {
@@ -107,13 +97,14 @@ export const OrderProvider = ({ children }) => {
         }
     };
     const value = {
-        orders,
+        orders: state.orders,
         createOrder,
         updateOrder,
         // filterOrder,
         showOrder,
         setShowOrder,
-        newOrderLength
+        newOrderLength,
+        loadOrder
     };
 
     return <orderContext.Provider value={value}>
