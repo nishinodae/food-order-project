@@ -46,88 +46,57 @@ export const FoodMngrProvider = ({ children }) => {
         return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
 
-    //add food
-    const addFood = async (newFood) => {
-        setLoading(true);
-        if (currentImage) {
-            let imgURL;
+    //food image for the food to be saved
+    const getFoodImg = async () => {
+        if (!currentImage) return ''; //no image used
 
-            //if image is already in json-server
-            if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
-                imgURL = currentImage;
-            }
-            else {
-                imgURL = await uploadLocalImage(currentImage);
+        //if image is already in json-server
+        if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
+            return currentImage;
+        }
 
-                //post image to json-server after uploading it to cloudinary
-                const dataImg = await postImage({
-                    id: uuidv4(),
-                    imgURL: imgURL
-                });
-                setFoodImages([...foodImages, dataImg]);
-            }
-            if (imgURL) {
-                const request = {
-                    id: uuidv4(),
-                    ...newFood,
-                    imgURL: imgURL
-                };
-                const data = await postFood(request);
-                setFood([...food, data]);
-                setCurrentImage(null);
-            }
-        }
-        else {
-            const request = {
-                id: uuidv4(),
-                ...newFood,
-                imgURL: ''
-            };
-            const data = await postFood(request);
-            setFood([...food, data]);
-        }
-        setLoading(false);
+        //else, upload to cloudinary
+        const imgURL = await uploadLocalImage(currentImage);
+
+        //post image to json-server after uploading it to cloudinary        
+        const dataImg = await postImage({
+            id: uuidv4(),
+            imgURL: imgURL
+        });
+
+        setFoodImages(prev => [...prev, dataImg]);
+
+        return imgURL;
     };
 
-    //edit food
-    const editFoodHandler = async (item) => {
+    //save food
+    const saveFood = async (item) => {
         setLoading(true);
-        if (currentImage) {
-            let imgURL;
-            if (typeof (currentImage) === 'string' && currentImage.startsWith(process.env.REACT_APP_PREFIX_IMAGEURL)) {
-                imgURL = currentImage;
-            }
-            else {
-                imgURL = await uploadLocalImage(currentImage);
-                const dataImg = await postImage({
-                    id: uuidv4(),
-                    imgURL: imgURL
-                });
-                setFoodImages([...foodImages, dataImg]);
-            }
-            if (imgURL) {
-                const data = await putFood({
-                    imgURL: imgURL,
-                    ...item,
-                });
-                const { id } = data;
-                setFood(food.map(oldFood =>
-                    oldFood.id === id ? { ...data } : oldFood
-                ));
-                setCurrentImage(null);
-            }
-        }
-        else {
-            const data = await putFood({
-                imgURL: '',
+        try {
+            const imgURL = await getFoodImg(currentImage);
+            const request = {
                 ...item,
-            });
-            const { id } = data;
-            setFood(food.map(oldFood =>
-                oldFood.id === id ? { ...data } : oldFood
-            ));
+                imgURL: imgURL
+            };
+
+            let data;
+
+            if (form.mode === 'add') {
+                data = await postFood({ ...request, id: uuidv4() });
+                setFood(prev => [...prev, data]);
+            } else {
+                data = await putFood(request);
+                setFood(prev =>
+                    prev.map(oldFood =>
+                        oldFood.id === data.id ? { ...data } : oldFood
+                    )
+                );
+            }
+            setCurrentImage(null);
+
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     //delete food
@@ -149,8 +118,7 @@ export const FoodMngrProvider = ({ children }) => {
 
     const actions = {
         retrieveFoods,
-        addFood,
-        editFoodHandler,
+        saveFood,
         deleteFoodHandler,
         setCurrentImage,
         retrieveFoodImages,
@@ -179,7 +147,7 @@ const initialFormState = {
     price: '',
     error: '',
     helperText: '',
-    mode: 'create'
+    mode: 'add'
 };
 
 const formReducer = (state, action) => {

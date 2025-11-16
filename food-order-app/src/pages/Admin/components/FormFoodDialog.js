@@ -2,12 +2,14 @@ import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } fro
 import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
 import AddImage from './AddImage';
 import useDebounceTimeout from '../../../utils/debounce';
+import { useState } from 'react';
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
-    const { addFood, editFoodHandler, setCurrentImage, dispatch } = useFoodActions();
+    const { saveFood, setCurrentImage, dispatch } = useFoodActions();
     const { form } = useFoodState();
-    const { id, foodname, desc, price, error, helperText, mode } = form;
+    const { id, foodname, desc, price, error, helperText } = form;
     const debounce = useDebounceTimeout();
+    const [disable, setDisable] = useState(false);
 
     const handleChange = (e) => {
         dispatch({
@@ -46,23 +48,22 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
             return;
         }
 
-        let food = {
+        const food = {
+            'id': id,
             'name': foodname,
             'desc': desc,
             'price': Number(price),
         };
 
-        if (mode === 'edit') {
-            editFoodHandler({
-                id: id,
-                ...food,
-            });
-        } else {
-            addFood(food);
+        try {
+            setDisable(true);
+            saveFood(food);
+        }
+        finally {
+            dispatch({ type: 'RESET' });
+            onClose();
         }
 
-        dispatch({ type: 'RESET' });
-        onClose();
     };
 
     const cancel = () => {
@@ -112,6 +113,7 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
             <AddImage />
             <Box display='flex'>
                 <Button
+                    disabled={disable}
                     type='submit' variant='contained' sx={{
                         flex: 1, mr: '8px'
                     }}>{!foodItem ? 'add' : 'update'}</Button>
