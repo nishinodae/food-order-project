@@ -1,12 +1,12 @@
 import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from '@mui/material';
-import { useEffect, useReducer } from 'react';
-import { useFoodContext } from '../../../context/FoodMngrContext';
+import { useEffect } from 'react';
+import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
 import AddImage from './AddImage';
 import useDebounceTimeout from '../../../utils/debounce';
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
-    const { addFood, editFoodHandler, setCurrentImage, initialFormState, formReducer } = useFoodContext();
-    const [form, dispatch] = useReducer(formReducer, initialFormState);
+    const { addFood, editFoodHandler, setCurrentImage, dispatch } = useFoodActions();
+    const { form } = useFoodState();
     const { id, foodname, desc, price, error, helperText, mode } = form;
     const debounce = useDebounceTimeout();
 

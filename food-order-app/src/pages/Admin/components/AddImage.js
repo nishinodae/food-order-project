@@ -3,12 +3,13 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HistoryIcon from '@mui/icons-material/History';
 import LaptopIcon from '@mui/icons-material/Laptop';
 import { useEffect, useRef, useState } from 'react';
-import { useFoodContext } from '../../../context/FoodMngrContext';
+import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
 import FilePicker from './FilePicker';
 import compressImage from '../../../utils/compressImage';
 
 const AddImage = () => {
-    const { currentImage, setCurrentImage } = useFoodContext();
+    const { currentImage } = useFoodState();
+    const { setCurrentImage } = useFoodActions();
     const [anchorEl, setAnchorEl] = useState(null);
     const [openFilePicker, setOpenFilePicker] = useState(false);
     const [loading, setLoading] = useState(false);

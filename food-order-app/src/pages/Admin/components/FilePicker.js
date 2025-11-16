@@ -1,10 +1,11 @@
 import { Dialog, DialogTitle, Grid } from '@mui/material';
-import { useFoodContext } from '../../../context/FoodMngrContext';
+import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
 import { useCallback } from 'react';
 
 const FilePicker = ({ onClose }) => {
-    const { setCurrentImage, foodImages } = useFoodContext();
-
+    const { foodImages } = useFoodState();
+    const { setCurrentImage } = useFoodActions();
+    
     const handleChoose = useCallback((url) => {
         onClose();
         setCurrentImage(url);

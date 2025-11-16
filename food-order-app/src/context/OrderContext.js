@@ -102,7 +102,6 @@ export const OrderProvider = ({ children }) => {
         orders: state.orders,
         createOrder,
         updateOrder,
-        // filterOrder,
         showOrder,
         setShowOrder,
         newOrderLength,

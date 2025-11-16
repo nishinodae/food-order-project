@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useFoodContext } from './FoodMngrContext';
+import { useFoodState } from './FoodMngrContext';
 
 const cartContext = createContext();
 
@@ -8,7 +8,7 @@ export function CartContextProvider({ children }) {
     const [cart, setCart] = useState(JSON.parse(localStorage.getItem(LOCAL_STORAGE_CART_KEY)) || []);
     const [totalPrice, setTotalPrice] = useState(0);
     const [cartLength, setCartLength] = useState(0);
-    const { food } = useFoodContext();
+    const { food } = useFoodState();
 
     useEffect(() => {
         if (food.length > 0 && cart.length > 0) {

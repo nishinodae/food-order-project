@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Stack, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useFoodContext } from '../../../context/FoodMngrContext';
+import { useFoodState } from '../../../context/FoodMngrContext';
 import { useCartContext } from '../../../context/CartContext';
 import { useOrderContext } from '../../../context/OrderContext';
 import { useAuthContext } from '../../../context/AuthContext';
@@ -8,7 +8,7 @@ import CartItem from './CartItem';
 
 const CartUI = ({ onClose }) => {
     const { cart, cartLength, totalPrice, clearCart } = useCartContext();
-    const { food } = useFoodContext();
+    const { food } = useFoodState();
     const { createOrder, setShowOrder } = useOrderContext();
     const { customerID } = useAuthContext();
 

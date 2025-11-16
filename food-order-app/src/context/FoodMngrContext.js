@@ -1,11 +1,13 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useReducer, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { deleteFood, getFood, postFood, putFood } from '../api/food';
 import { useAuthContext } from './AuthContext';
 import { getImage, postImage, uploadLocalImage } from '../api/foodImages';
 import { useOrderContext } from './OrderContext';
 
-const foodMngrContext = createContext();
+// const foodMngrContext = createContext();
+const FoodStateContext = createContext();
+const FoodActionsContext = createContext();
 
 export const FoodMngrProvider = ({ children }) => {
     const { setLoading } = useAuthContext();
@@ -13,6 +15,9 @@ export const FoodMngrProvider = ({ children }) => {
     const [food, setFood] = useState([]);
     const [foodImages, setFoodImages] = useState([]);
     const [currentImage, setCurrentImage] = useState(null);
+
+    //reducer
+    const [form, dispatch] = useReducer(formReducer, initialFormState);
 
     //retrieve food
     const retrieveFoods = async () => {
@@ -31,7 +36,7 @@ export const FoodMngrProvider = ({ children }) => {
         const handleStorageChange = (e) => {
             if (e.key === 'itemsUpdated') {
                 retrieveFoods();
-            }else if(e.key === 'orderUpdated'){
+            } else if (e.key === 'orderUpdated') {
                 loadOrder();
             }
         };
@@ -135,61 +140,70 @@ export const FoodMngrProvider = ({ children }) => {
         setFood(newFoodList);
     };
 
-    const initialFormState = {
-        id: null,
-        foodname: '',
-        desc: '',
-        price: '',
-        error: '',
-        helperText: '',
-        mode: 'create'
-    };
-
-    const formReducer = (state, action) => {
-        switch (action.type) {
-            case 'CHANGE_FIELD':
-                return {
-                    ...state,
-                    [action.field]: action.value,
-                };
-            case 'SET_ERROR':
-                return {
-                    ...state,
-                    error: action.value,
-                    helperText: action.helperText
-                };
-            case 'EDITING_MODE':
-                return {
-                    ...state,
-                    ...action.payload,
-                    mode: 'edit'
-                };
-            case 'RESET':
-                return initialFormState;
-
-            default: return state;
-        }
-    };
-
-    const value = {
+    const state = {
         food,
+        currentImage,
+        foodImages,
+        form
+    };
+
+    const actions = {
         retrieveFoods,
         addFood,
         editFoodHandler,
         deleteFoodHandler,
-        currentImage,
         setCurrentImage,
-        foodImages,
         retrieveFoodImages,
-        initialFormState,
-        formReducer
+        dispatch
     };
 
-    return <foodMngrContext.Provider value={value}>
-        {children}
-    </foodMngrContext.Provider>;
+    return <FoodStateContext.Provider value={state}>
+        <FoodActionsContext.Provider value={actions}>
+            {children}
+        </FoodActionsContext.Provider>
+    </FoodStateContext.Provider>;
 };
 
-export const useFoodContext = () => {
-    return useContext(foodMngrContext);
+export const useFoodState = () => {
+    return useContext(FoodStateContext);
+};
+
+export const useFoodActions = () => {
+    return useContext(FoodActionsContext);
+};
+
+const initialFormState = {
+    id: null,
+    foodname: '',
+    desc: '',
+    price: '',
+    error: '',
+    helperText: '',
+    mode: 'create'
+};
+
+const formReducer = (state, action) => {
+    switch (action.type) {
+        case 'CHANGE_FIELD':
+            return {
+                ...state,
+                [action.field]: action.value,
+            };
+        case 'SET_ERROR':
+            return {
+                ...state,
+                error: action.value,
+                helperText: action.helperText
+            };
+        case 'EDITING_MODE':
+            return {
+                ...state,
+                ...action.payload,
+                mode: 'edit'
+            };
+        case 'RESET':
+            return initialFormState;
+
+        default: return state;
+    }
 };

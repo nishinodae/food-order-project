@@ -1,7 +1,7 @@
 import { Badge, Button, Grid, IconButton, Stack, Tooltip } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useCallback, useState } from 'react';
-import { useFoodContext } from '../../context/FoodMngrContext';
+import { useFoodActions, useFoodState } from '../../context/FoodMngrContext';
 import { useOrderContext } from '../../context/OrderContext';
 import FoodCard from '../../components/FoodCard';
 import MenuAppBar from '../../components/MenuAppBar';
@@ -14,7 +14,8 @@ const Admin = () => {
     const [showFormFood, setShowFormFood] = useState(false);
     const [editingItem, setEditingItem] = useState(null);
     const [deletingItem, setDeletingItem] = useState(null);
-    const { food, setCurrentImage } = useFoodContext();
+    const { food } = useFoodState();
+    const { setCurrentImage } = useFoodActions();
     const { showOrder, setShowOrder, newOrderLength } = useOrderContext();
 
     const handleEdit = useCallback((item) => {

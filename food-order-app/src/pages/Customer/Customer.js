@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useState } from 'react';
-import { useFoodContext } from '../../context/FoodMngrContext';
+import { useFoodState } from '../../context/FoodMngrContext';
 import { useCartContext } from '../../context/CartContext';
 import { useOrderContext } from '../../context/OrderContext';
 import Headline from '../../components/Headline';
@@ -15,7 +15,7 @@ import FoodCard from '../../components/FoodCard';
 
 const Customer = () => {
     const [showCart, setShowCart] = useState(false);
-    const { food } = useFoodContext();
+    const { food } = useFoodState();
     const { cart, cartLength, addFoodToCart, removeFoodFromCart } = useCartContext();
     const { showOrder, setShowOrder } = useOrderContext();
 
