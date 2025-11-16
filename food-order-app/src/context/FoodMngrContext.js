@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { deleteFood, getFood, postFood, putFood } from '../api/food';
 import { useAuthContext } from './AuthContext';
@@ -15,9 +15,6 @@ export const FoodMngrProvider = ({ children }) => {
     const [food, setFood] = useState([]);
     const [foodImages, setFoodImages] = useState([]);
     const [currentImage, setCurrentImage] = useState(null);
-
-    //reducer
-    const [form, dispatch] = useReducer(formReducer, initialFormState);
 
     //retrieve food
     const retrieveFoods = async () => {
@@ -70,7 +67,7 @@ export const FoodMngrProvider = ({ children }) => {
     };
 
     //save food
-    const saveFood = async (item) => {
+    const saveFood = async (item, mode) => {
         setLoading(true);
         try {
             const imgURL = await getFoodImg(currentImage);
@@ -81,7 +78,7 @@ export const FoodMngrProvider = ({ children }) => {
 
             let data;
 
-            if (form.mode === 'add') {
+            if (mode === 'add') {
                 data = await postFood({ ...request, id: uuidv4() });
                 setFood(prev => [...prev, data]);
             } else {
@@ -113,7 +110,6 @@ export const FoodMngrProvider = ({ children }) => {
         food,
         currentImage,
         foodImages,
-        form
     };
 
     const actions = {
@@ -122,7 +118,6 @@ export const FoodMngrProvider = ({ children }) => {
         deleteFoodHandler,
         setCurrentImage,
         retrieveFoodImages,
-        dispatch
     };
 
     return <FoodStateContext.Provider value={state}>
@@ -138,40 +133,4 @@ export const useFoodState = () => {
 
 export const useFoodActions = () => {
     return useContext(FoodActionsContext);
-};
-
-const initialFormState = {
-    id: null,
-    foodname: '',
-    desc: '',
-    price: '',
-    error: '',
-    helperText: '',
-    mode: 'add'
-};
-
-const formReducer = (state, action) => {
-    switch (action.type) {
-        case 'CHANGE_FIELD':
-            return {
-                ...state,
-                [action.field]: action.value,
-            };
-        case 'SET_ERROR':
-            return {
-                ...state,
-                error: action.value,
-                helperText: action.helperText
-            };
-        case 'EDITING_MODE':
-            return {
-                ...state,
-                ...action.payload,
-                mode: 'edit'
-            };
-        case 'RESET':
-            return initialFormState;
-
-        default: return state;
-    }
 };

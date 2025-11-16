@@ -1,15 +1,29 @@
 import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from '@mui/material';
-import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
+import { useFoodActions } from '../../../context/FoodMngrContext';
 import AddImage from './AddImage';
 import useDebounceTimeout from '../../../utils/debounce';
-import { useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
-    const { saveFood, setCurrentImage, dispatch } = useFoodActions();
-    const { form } = useFoodState();
-    const { id, foodname, desc, price, error, helperText } = form;
+    const [form, dispatch] = useReducer(formReducer, initialFormState);
+    const { id, foodname, desc, price, error, helperText, mode } = form;
+    const { saveFood, setCurrentImage } = useFoodActions();
     const debounce = useDebounceTimeout();
     const [disable, setDisable] = useState(false);
+
+    useEffect(() => {
+        if (foodItem) {
+            dispatch({
+                type: 'EDITING_MODE',
+                payload: {
+                    id: foodItem.id,
+                    foodname: foodItem.name,
+                    desc: foodItem.desc,
+                    price: foodItem.price,
+                }
+            });
+        }
+    }, [foodItem]);
 
     const handleChange = (e) => {
         dispatch({
@@ -57,7 +71,7 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
 
         try {
             setDisable(true);
-            saveFood(food);
+            saveFood(food, mode);
         }
         finally {
             dispatch({ type: 'RESET' });
@@ -129,3 +143,39 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
 };
 
 export default FormFoodDialog;
+
+const initialFormState = {
+    id: null,
+    foodname: '',
+    desc: '',
+    price: '',
+    error: '',
+    helperText: '',
+    mode: 'add'
+};
+
+const formReducer = (state, action) => {
+    switch (action.type) {
+        case 'CHANGE_FIELD':
+            return {
+                ...state,
+                [action.field]: action.value,
+            };
+        case 'SET_ERROR':
+            return {
+                ...state,
+                error: action.value,
+                helperText: action.helperText
+            };
+        case 'EDITING_MODE':
+            return {
+                ...state,
+                ...action.payload,
+                mode: 'edit'
+            };
+        case 'RESET':
+            return initialFormState;
+
+        default: return state;
+    }
+};
