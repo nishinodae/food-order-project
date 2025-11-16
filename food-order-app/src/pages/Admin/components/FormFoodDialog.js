@@ -1,5 +1,4 @@
 import { Box, Button, Dialog, InputAdornment, Stack, TextField, Typography } from '@mui/material';
-import { useEffect } from 'react';
 import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
 import AddImage from './AddImage';
 import useDebounceTimeout from '../../../utils/debounce';
@@ -9,22 +8,6 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
     const { form } = useFoodState();
     const { id, foodname, desc, price, error, helperText, mode } = form;
     const debounce = useDebounceTimeout();
-
-    useEffect(() => {
-        if (foodItem) {
-            dispatch({
-                type: 'EDITING_MODE',
-                payload: {
-                    id: foodItem.id,
-                    foodname: foodItem.name,
-                    desc: foodItem.desc,
-                    price: foodItem.price,
-                }
-            });
-        } else {
-            dispatch({ type: 'RESET' });
-        }
-    }, [foodItem]);
 
     const handleChange = (e) => {
         dispatch({

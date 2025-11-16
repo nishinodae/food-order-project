@@ -15,12 +15,21 @@ const Admin = () => {
     const [editingItem, setEditingItem] = useState(null);
     const [deletingItem, setDeletingItem] = useState(null);
     const { food } = useFoodState();
-    const { setCurrentImage } = useFoodActions();
+    const { setCurrentImage, dispatch } = useFoodActions();
     const { showOrder, setShowOrder, newOrderLength } = useOrderContext();
 
     const handleEdit = useCallback((item) => {
         setEditingItem(item);
         setCurrentImage(item.imgURL);
+        dispatch({
+                type: 'EDITING_MODE',
+                payload: {
+                    id: item.id,
+                    foodname: item.name,
+                    desc: item.desc,
+                    price: item.price,
+                }
+            });
     }, []);
 
     const handleDelete = useCallback((item) => {
