@@ -42,7 +42,7 @@ const CartUI = ({ onClose }) => {
         }
     };
 
-    const renderFoodList = cart.map((cartItem, index) => {
+    const renderCart = cart.map((cartItem, index) => {
         let currentCount = 0;
         let info;
         for (const foodItem of food) {
@@ -65,7 +65,7 @@ const CartUI = ({ onClose }) => {
                 </IconButton>
             </Box>
             <DialogContent sx={{ p: '0 40px' }}>
-                {cartLength === 0 ? 'Your cart is empty' : renderFoodList}
+                {cartLength === 0 ? 'Your cart is empty' : renderCart}
             </DialogContent>
             <Stack m='10px 40px'>
                 <Box className='custom-box'><Typography>Subtotal ({cartLength} items)</Typography><Typography>RM{totalPrice.toFixed(2)}</Typography></Box>
