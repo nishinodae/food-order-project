@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Menu, MenuItem, Stack, Typography } from '@mui/material';
+import { Button, CircularProgress, IconButton, Menu, MenuItem, Stack, Typography } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HistoryIcon from '@mui/icons-material/History';
 import LaptopIcon from '@mui/icons-material/Laptop';
@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useFoodActions, useFoodState } from '../../../context/FoodMngrContext';
 import FilePicker from './FilePicker';
 import compressImage from '../../../utils/compressImage';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const AddImage = () => {
     const { currentImage } = useFoodState();
@@ -111,7 +112,10 @@ const AddImage = () => {
             </div>
             {currentImage &&
                 <div>
-                    <Typography fontSize='14px'>{imgDisplay[0]}</Typography>
+                    <Typography fontSize='14px'>
+                        {imgDisplay[0]}
+                        <IconButton onClick={() => setCurrentImage(null)}><DeleteIcon sx={{ fontSize: '16px' }}/></IconButton>
+                    </Typography>
                     <img loading='lazy' src={imgDisplay[1]} alt='' width='100px' height='100px' />
                 </div>
             }
