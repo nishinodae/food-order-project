@@ -6,10 +6,10 @@ export const uploadLocalImage = async (file) => {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', 'upload-unsigned-food-image');
-        
+
         //process.env.REACT_APP_API_URL stored the Cloudinary REST API URL
         const url = process.env.REACT_APP_API_URL;
-        
+
         const response = await fetch(url,
             {
                 method: 'POST',
@@ -24,7 +24,12 @@ export const uploadLocalImage = async (file) => {
         }
     }
     catch (e) {
-        alert('Upload error: ', e.message);
+        if (e.message.includes('Failed to fetch')) {
+            alert('Failed to upload image: Please check your internet connection');
+        }
+        else {
+            alert('Failed to upload image');
+        }
     }
 };
 
@@ -42,7 +47,7 @@ export const postImage = async (imgData) => {
         return response.json();
     }
     catch (e) {
-        alert('Error adding imageURL to json-server:', e);
+        alert(`Error adding imageURL to json-server: ${e.message}`);
     }
 };
 
@@ -55,7 +60,7 @@ export const deleteImage = async (id) => {
         );
     }
     catch (e) {
-        alert('Error deleting imageURL from json-server:', e);
+        alert(`Error deleting imageURL from json-server: ${e.message}`);
     }
 };
 
@@ -69,6 +74,6 @@ export const getImage = async () => {
         return response.json();
     }
     catch (e) {
-        alert('Error getting imageURL from json-server:', e);
+        alert(`Error getting imageURL from json-server: ${e.message}`);
     }
 };

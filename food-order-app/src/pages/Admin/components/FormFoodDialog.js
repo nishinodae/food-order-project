@@ -3,11 +3,13 @@ import { useFoodActions } from '../../../context/FoodMngrContext';
 import AddImage from './AddImage';
 import useDebounceTimeout from '../../../utils/debounce';
 import { useEffect, useReducer, useState } from 'react';
+import { useAuthContext } from '../../../context/AuthContext';
 
 const FormFoodDialog = ({ onClose, foodItem }) => {
     const [form, dispatch] = useReducer(formReducer, initialFormState);
     const { id, foodname, desc, price, error, helperText, mode } = form;
     const { saveFood, setCurrentImage } = useFoodActions();
+    const { setLoading } = useAuthContext();
     const debounce = useDebounceTimeout();
     const [disable, setDisable] = useState(false);
 
@@ -70,12 +72,14 @@ const FormFoodDialog = ({ onClose, foodItem }) => {
         };
 
         try {
+            setLoading(true);
             setDisable(true);
             saveFood(food, mode);
         }
         finally {
             dispatch({ type: 'RESET' });
             onClose();
+            setLoading(false);
         }
 
     };

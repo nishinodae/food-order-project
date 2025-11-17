@@ -1,7 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { deleteFood, getFood, postFood, putFood } from '../api/food';
-import { useAuthContext } from './AuthContext';
 import { getImage, postImage, uploadLocalImage } from '../api/foodImages';
 import { useOrderContext } from './OrderContext';
 
@@ -10,7 +9,6 @@ const FoodStateContext = createContext();
 const FoodActionsContext = createContext();
 
 export const FoodMngrProvider = ({ children }) => {
-    const { setLoading } = useAuthContext();
     const { loadOrder } = useOrderContext();
     const [food, setFood] = useState([]);
     const [foodImages, setFoodImages] = useState([]);
@@ -44,7 +42,7 @@ export const FoodMngrProvider = ({ children }) => {
     }, []);
 
     //food image for the food to be saved
-    const getFoodImg = async () => {
+    const getOrUploadFoodImg = async () => {
         if (!currentImage) return ''; //no image used
 
         //if image is already in json-server
@@ -55,22 +53,23 @@ export const FoodMngrProvider = ({ children }) => {
         //else, upload to cloudinary
         const imgURL = await uploadLocalImage(currentImage);
 
-        //post image to json-server after uploading it to cloudinary        
-        const dataImg = await postImage({
-            id: uuidv4(),
-            imgURL: imgURL
-        });
+        if (imgURL) {
+            //post image to json-server after uploading it to cloudinary        
+            const dataImg = await postImage({
+                id: uuidv4(),
+                imgURL: imgURL
+            });
 
-        setFoodImages(prev => [...prev, dataImg]);
+            setFoodImages(prev => [...prev, dataImg]);
 
-        return imgURL;
+            return imgURL;
+        }
     };
 
     //save food
     const saveFood = async (item, mode) => {
-        setLoading(true);
-        try {
-            const imgURL = await getFoodImg(currentImage);
+        const imgURL = await getOrUploadFoodImg(currentImage);
+        if (imgURL != null) {
             const request = {
                 ...item,
                 imgURL: imgURL
@@ -89,11 +88,8 @@ export const FoodMngrProvider = ({ children }) => {
                     )
                 );
             }
-            setCurrentImage(null);
-
-        } finally {
-            setLoading(false);
         }
+        setCurrentImage(null);
     };
 
     //delete food
@@ -113,11 +109,9 @@ export const FoodMngrProvider = ({ children }) => {
     };
 
     const actions = {
-        retrieveFoods,
         saveFood,
         deleteFoodHandler,
         setCurrentImage,
-        retrieveFoodImages,
     };
 
     return <FoodStateContext.Provider value={state}>

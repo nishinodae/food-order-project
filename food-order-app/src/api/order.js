@@ -15,7 +15,7 @@ export const postOrder = async (order) => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -34,7 +34,7 @@ export const editOrder = async (order) => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -48,7 +48,7 @@ export const getAllOrder = async () => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -62,7 +62,7 @@ export const getAllOrder = async () => {
 //         return response.json();
 //     }
 //     catch (e) {
-//         alert('Error:', e);
+//         alert(`Error: ${e.message}`);
 //     }
 // }
 
@@ -76,7 +76,7 @@ export const getOrderByUserId = async (id) => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -90,6 +90,6 @@ export const getOrderByUserId = async (id) => {
 //         return response.json();
 //     }
 //     catch (e) {
-//         alert('Error:', e);
+//         alert(`Error: ${e.message}`);
 //     }
 // }

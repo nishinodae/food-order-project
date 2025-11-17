@@ -15,7 +15,7 @@ export const postFood = async (food) => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -34,7 +34,7 @@ export const putFood = async (food) => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -48,7 +48,7 @@ export const deleteFood = async (id) => {
         localStorage.setItem('itemsUpdated', Date.now());
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
 
@@ -62,6 +62,6 @@ export const getFood = async () => {
         return response.json();
     }
     catch (e) {
-        alert('Error:', e);
+        alert(`Error: ${e.message}`);
     }
 };
