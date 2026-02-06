@@ -44,18 +44,6 @@ This project includes:
 
 > The backend runs on [http://localhost:3006](http://localhost:3006) by default.
 
-### Frontend Setup
-
-1. Install dependencies and start the frontend:
-
-    ```bash
-    cd food-order-app
-    npm install
-    npm start
-    ```
-
-> The app runs on [http://localhost:3000](http://localhost:3000) by default.
-
 ### Cloudinary Setup
 
 This app uploads food images programmatically without a signature using the [Cloudinary Unsigned Upload API](https://cloudinary.com/documentation/upload_images#unsigned_upload).
@@ -67,7 +55,7 @@ This app uploads food images programmatically without a signature using the [Clo
    
     ![Add upload preset at Cloudinary console](upload-preset-cloudinary.jpg)
    
-3. Create a `.env` file in your project's root directory.
+3. Create an `.env` file in the `food-order-app/` root directory.
 4. Add your Cloudinary REST API URL in .env as REACT_APP_API_URL:
    
     ```bash
@@ -80,3 +68,14 @@ This app uploads food images programmatically without a signature using the [Clo
     REACT_APP_PREFIX_IMAGEURL=https://res.cloudinary.com/<your cloud name>/image/upload/
     ```
     
+### Frontend Setup
+
+1. Install dependencies and start the frontend:
+
+    ```bash
+    cd food-order-app
+    npm install
+    npm start
+    ```
+
+> The app runs on [http://localhost:3000](http://localhost:3000) by default.
