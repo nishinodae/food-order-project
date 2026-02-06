@@ -79,3 +79,11 @@ This app uploads food images programmatically without a signature using the [Clo
     ```
 
 > The app runs on [http://localhost:3000](http://localhost:3000) by default.
+
+## Project Screenshots
+![food-order-customer](https://github.com/user-attachments/assets/23f14b08-de32-41e3-861c-6cb36f14784c)
+![food-order-customer-order](https://github.com/user-attachments/assets/049b7cdc-333f-4de3-a998-4afd1e14369b)
+![food-order-customer-cart](https://github.com/user-attachments/assets/ee0943c6-85ef-4eb2-93b8-004d20bcecdf)
+![food-order-admin](https://github.com/user-attachments/assets/db97be50-0be5-492f-bae9-ec62d3f193de)
+![food-order-admin-order](https://github.com/user-attachments/assets/cef0cb9b-d9c3-458f-87c4-7513f0a56ec0)
+![food-order-admin-addFood](https://github.com/user-attachments/assets/7c7f180c-3834-4e72-ac35-761160f3a313)
